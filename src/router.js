@@ -7,6 +7,9 @@ import Login from './components/Login.vue'
 import Secure from './components/Secure.vue'
 import Register from './components/Register.vue'
 import Profile from "./components/Profile";
+import Analyse from "./components/Analyse";
+import Corpus from "./components/Corpus";
+import Error from "./components/Error";
 
 Vue.use(Router)
 
@@ -48,7 +51,30 @@ let router = new Router({
       meta: {
         requiresAuth: true
       }
-
+    },
+    {
+      path: '/analyse',
+      name: 'analyse',
+      component: Analyse,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/corpus',
+      name: 'corpus',
+      component: Corpus,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: Error,
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
 })
