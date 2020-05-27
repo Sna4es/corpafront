@@ -31,11 +31,13 @@
       this.$http.interceptors.response.use(undefined, function (error) {
         return new Promise(function (resolve, reject) {
           if (error.status === 401 && error.config && !err.config.__isRetryRequest) {
-             //this.$store.dispatch(logout)
+             this.$store.dispatch('logout')
+
           }
           // else if (error.status === )
           throw error;
           console.log('intercept')
+          console.log('errorapp='+ error)
         });
       });
     },

@@ -20,7 +20,9 @@ export default new Vuex.Store({
         },
         replaces: {},
         NewUsername: {},
-        NewPassword: {},
+        origPassword: {},
+        nPassword: {},
+        nPasswordConfirm: {},
         mySettingsd: {},
         originalText: {},
 
@@ -35,17 +37,21 @@ export default new Vuex.Store({
             state.username = username
             state.userId = userId
         },
-        auth_work(state, token, username, userID) {
+        auth_work(state, token, username, userId) {
             state.status = 'authorized'
             state.token = token
             state.username = username
-            state.userId = userID
+            state.userId = userId
         },
         auth_error(state) {
             state.status = 'error'
         },
         work_error(state) {
             state.status = 'error'
+            state.token = token
+            state.username = username
+            state.userId = userId
+
         },
         logout(state) {
             state.status = ''
@@ -66,9 +72,9 @@ export default new Vuex.Store({
                         axios.defaults.headers.common['Authorization'] = token
                         commit('auth_success', token, username, userId)
                         resolve(response)
-                        console.log(response)
-                        console.log(token, "     ", username, "    ", userId)
-                    })
+                        console.log(token)
+                        console.log(token, "     ", username, "    ", userId, '  ' )
+                    }, )
                     .catch(error => {
                         commit('auth_error')
                         localStorage.removeItem('token')
@@ -93,10 +99,17 @@ export default new Vuex.Store({
                         resolve(response)
                     })
                     .catch(error => {
-                        commit('auth_error', error)
-                        localStorage.removeItem('token')
+                        // commit('auth_error', error)
+                        // localStorage.removeItem('token')
+                        if (error.response.data.message === "Error: Username is already taken!") {
+                            console.log('error username')
+                            commit('logout')
+                        } if (error.response.data.message === "Error: Email is already in use!") {
+                            console.log('error EMAIL')
+                            commit('logout')
+                        }
                         reject(error)
-                       console.log(error.response.data.message)
+                       console.log(error.response.data)
                     })
             })
         },
@@ -108,10 +121,9 @@ export default new Vuex.Store({
                 resolve()
             })
         },
-        profileMe({commit}, user) {   ///просмотр инфы о себе
+        myProfile({commit} ) {   ///просмотр инфы о себе
             return new Promise((resolve, reject) => {
-                commit('auth_success')
-                // axios({ method:'GET', url: URLP, headers: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTU5MDI0MDcwMSwiZXhwIjoxNTkwMzI3MTAxfQ.CXUowuJaMoNdPUVTJoBGm587Y9N5AvIfWXy8IcfvKc5sI8tvR7YKKMSMCqESN1EbKmA1k2asbL1IawkFbHsLpQ' })
+                // commit('auth_success')
                 axios.get('http://127.0.0.1:8080/api/v1/users/me', {
                     headers: {Authorization: 'Bearer ' + localStorage.token}
                 })
@@ -123,19 +135,19 @@ export default new Vuex.Store({
                         const userSettings = response.data.userSettings
                         const replaces = response.data.userSettings.replaces
                         // console.log(response)
-                        // console.log(response.data.userSettings.replaces)
-                        console.log(userId," 2 ", username," 3 ", email," 4 ", roles)
-                        var sourceOfTruth = {userId, username}
-
-
-                        commit('auth_work')
+                        console.log(response.data.id)
+                        // console.log(" 2 ", username," 3 ", email," 4 ", roles)
+                        // commit('auth_work', token)
+                    })
+                    .catch(error => {
+                        console.log('errorstore='+ error)
+                        reject(error)
                     })
 
             })
         },
         profileUser({commit}, user) {   ///просмотр инфы о пользователе
             return new Promise((resolve, reject) => {
-                commit('auth_success')
                 axios.get('http://127.0.0.1:8080/api/v1/users/{id}', {
                     headers: {
                         id: "тут как=то получить id из формы",
@@ -149,65 +161,87 @@ export default new Vuex.Store({
         },
         mySettings({commit}, user, mySettingsd) {  // посмотреть свои настройки
             return new Promise((resolve, reject) => {
-                commit('auth_success')
+                const token = localStorage.token
+                commit('auth_work', token)
+                // commit('auth_success')
                 axios.get('http://127.0.0.1:8080/api/v1/users/me/settings', {headers: {Authorization: "Bearer " + localStorage.token}})
                     .then(response => {
                         mySettingsd = response.data
                         console.log(response)
                         console.log(mySettingsd)
-                        this.$emit('settings', this.mySettingsd)
+                        console.log(localStorage.token)
+
+                        // commit('auth_success')
+                        resolve(response)
+                    })
+                    .catch(error => {
+                         reject(error)
+                        console.log(error)
                     })
             })
         },
         myReplaces({commit}, user) {    //посмотреть свои замены
             return new Promise((resolve, reject) => {
-                commit('auth_success'),
-                    axios.get('http://127.0.0.1:8080/api/v1/users/me/settings/replaces', {headers: {Authorization:  "Bearer " + localStorage.token, }})
+                const token = localStorage.token
+                commit('auth_work', token)
+                // commit('auth_success'),
+                    axios.get('http://127.0.0.1:8080/api/v1/users/me/settings/replaces', {headers: {Authorization:  "Bearer1 " + localStorage.token, }})
                         .then(response => {
-                            console.log(response)
-                        })
-            })
-        },
-        myNewUsername({commit}, username, NewUsername, token) {   // ПЕРЕИМЕНОВАТЬ ПОЛЬЗОВАТЕЛЯ
-            return new Promise((resolve, reject) => {
-                const config = {
-                    headers: { Authorization: 'Bearer ' + localStorage.token }};
-                const username = NewUsername
-                commit('auth_work'),
-                    // axios.put('http://127.0.0.1:8080/api/v1/users/me/username', { headers: {Authorization: 'Bearer '+ localStorage.token}, username})
-                axios.put('http://127.0.0.1:8080/api/v1/users/me/username', {username}, config)
-                        .then(response => {
-                            commit('logout')
-                            localStorage.removeItem(token)
-                            delete  axios.defaults.headers.common('Authorization')
-                            resolve(response)
-                            console.log(response)
-
-                        })
-                        .catch(err => {
-                            commit('work_error')
-                            reject(err)
-                            console.log(err)
-                        })
-            })
-        },
-        myNewPassword({commit}, username, token, NewPassword ) {  // СМЕНИТЬ ПАРОЛЬ
-            return new Promise((resolve, reject) => {
-                const config = {
-                    headers: { Authorization: 'Bearer ' + localStorage.token }};
-                commit('auth_work'),
-                    //axios.put('http://127.0.0.1:8080/api/v1/users/me/password', { headers: {Authorization: 'Bearer
-                // ' + localStorage.token}, myNewPassword })
-                axios.post('http://127.0.0.1:8080/api/v1/users/me/password', {NewPassword}, config)
-                        .then(response => {
-                            resolve(response)
-                            console.log(response)
-                            commit('auth_success')
+                            const repl = response.data
+                            console.log(response.data)
                         })
                         .catch(error => {
-                            commit('auth_success')
+                            reject(error)
+                            console.log(error.response.status)
+                            // commit('auth_success')
+                            if (error.response.status === 401) {
+                                commit ('auth_success')
+                            }
+                        })
+            })
+        },
+        myNewUsername({commit}, user, username, NewUsername) {   // ПЕРЕИМЕНОВАТЬ ПОЛЬЗОВАТЕЛЯ
+            return new Promise((resolve, reject) => {
+                const config = {
+                    headers: { Authorization: 'Bearer ' + localStorage.token }};
+                const username = 'alex'
+                const kav = '"';
+                    // axios.put('http://127.0.0.1:8080/api/v1/users/me/username', { headers: {Authorization: 'Bearer '+ localStorage.token}, username})
+                axios.put('http://127.0.0.1:8080/api/v1/users/me/username', {user}, config)
+                        .then( localStorage.removeItem('token'),
+                            response => {
+                            localStorage.removeItem('token')
+                            delete  axios.defaults.headers.common('Authorization')
+                            commit('logout')
+                            resolve(response)
+                            console.log(response)
+                            console.log(response.data)
+
+                        }, console.log(user))
+                        .catch(error => {
+                            commit('work_error')
                             reject(error)
                             console.log(error)
+                            console.log(error.response.data)
+                        })
+            })
+        },
+        myNewPassword({commit}, username, token, NewPassword, origPassword, nPassword, nPasswordConfirm ) {  // СМЕНИТЬ ПАРОЛЬ
+            return new Promise((resolve, reject) => {
+                const config = {
+                    headers: { Authorization: 'Bearer ' + localStorage.token }};
+                const kav= '"';
+                    //axios.put('http://127.0.0.1:8080/api/v1/users/me/password', { headers: {Authorization: 'Bearer
+                // ' + localStorage.token}, myNewPassword })
+                axios.post('http://127.0.0.1:8080/api/v1/users/me/password', {currentPassword: origPassword, newPassword: nPassword, newPasswordConfirm: kav+nPasswordConfirm+kav}, config)
+                        .then(response => {
+                            resolve(response)
+                            console.log(response)
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            reject(error)
+                            // commit('auth_success')
                         })
             })
         },
@@ -215,9 +249,9 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 const config = {
                     headers: { Authorization: 'Bearer ' + localStorage.token }};
-                commit('auth_success'),
+                const rep = '{"g":"j"}';
                     console.log(replaces)
-                    axios.put('http://127.0.0.1:8080/api/v1/users/me/settings/replaces', {replaces },  config )
+                    axios.put('http://127.0.0.1:8080/api/v1/users/me/settings/replaces', {replaces: rep },  config )
                         .then(response => {
                             resolve(response)
                             console.log(response)
@@ -241,16 +275,25 @@ export default new Vuex.Store({
         //
         //     })
         // }
-        analyseText({commit}, username, token, originalText) {
+        analyseText({commit}, user, username, token, originalText) {
             return new Promise((resolve, reject) => {
                 const config = {
-                    headers: { Authorization: 'Bearer ' + localStorage.token }
+                    headers: { Authorization: 'Bearer ' + localStorage.token }, params: {doReplaces: "true"}
                 };
-                commit("auth_success"),
-                    axios.post('http://127.0.0.1:8080/analyse', {originalText}, config)
+                const kav= '"';
+                const atext = 'лук';
+                const rep = 'false '
+                    axios.post('http://127.0.0.1:8080/analyse', {text: atext, doReplaces: rep }, config)
+                        .then(response => {
+                            const analysedText = response.data
+                            console.log(response.data)
+                            console.log(analysedText)
+                            commit('auth_success')
+                        })
                         .catch(error => {
                             reject(error)
                             console.log(error.response.data)
+                            console.log(username)
                         })
             })
         }
@@ -261,5 +304,6 @@ export default new Vuex.Store({
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
+        getText: state => state.originalText,
     }
 })
