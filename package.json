@@ -12,6 +12,7 @@
     "save": "^2.4.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
+    "vue2-storage": "^5.0.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

@@ -28,6 +28,10 @@
                 let text = this.text;
                 let doReplaces = this.doReplaces
                 this.$store.dispatch('analyseText', {text, doReplaces})
+                    .then(()=>
+                        console.log(localStorage.getItem('antext')+'   test'),
+                        console.log(localStorage.getItem('mysett')+'tes')
+                    )
                     .catch(error => {
                         this.$router.push('/error')
                         console.log(error, 'anerror')

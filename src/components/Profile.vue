@@ -41,30 +41,60 @@
                 nPassword: '',
                 nPasswordConfirm: '',
                 username: '',
+                setti: '',
+
             }
         },
         methods: {
             checkProfile: function () {
                 this.$store.dispatch("myProfile")
-                console.log(this.$store.$$state.userId, 'dsafsdfg')
+                .then(() =>
+                console.log(this.getters.isLoggedIn, 'afsf'),  console.log(localStorage.getItem('up')+' profilevue'),
+                    )
+                .catch(error => {
+                    if (error.response.status === 401){
+                        this.$router.push('/errorauth')
+                    }
+                    console.log(error)
+                })
 
             },
             checkSettings: function () {
                 this.$store.dispatch('mySettings')
-                    .then(() => console.log(this.$store.getters.isLoggedIn))
+                    .then(() => console.log(this.$store.getters.isLoggedIn),
+                        console.log(localStorage.getItem('mysett')+'tes'),
+                        console.log(localStorage.getItem('repla')+'repla')
+                        // this.setti = JSON.parse(localStorage.getItem('mysett'))
+                    )
+
                 .catch(error => {
-                    this.$router.push('/login')
-                    this.$store.getters.isLoggedIn
+                    if (error.response.status === 401 ) {
+                        this.$router.push('/errorauth')
+                    }
                     console.log(error)
                 })
             },
             checkReplaces: function () {
                 this.$store.dispatch('myReplaces')
+                .then(() => console.log(this.$store.getters.isLoggedIn)
+                )
                 .catch(error => {
-                    this.$router.push('/login')
-                    console.log(error)
+                    if (error.response.status === 401) {
+                        this.$router.push('/errorauth')
+                    }
+
                 })
             },
+            // checkReplaces: function () {
+            //     this.$store.dispatch('myReplaces')
+            //         .then(() =>
+            //             console.log(localStorage.getItem('repla')+'repla')
+            //         )
+            //     .catch(error => {
+            //         this.$router.push('/login')
+            //         console.log(error)
+            //     })
+            // },
             userRename: function () {
                 let username = this.username;
                 this.$store.dispatch('myNewUsername', {username})
