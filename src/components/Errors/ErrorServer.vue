@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h6>Почта занята</h6>
+        <h6>Ошибка. Сервер недоступен</h6>
         <form @submit.prevent="Back" class="analyse">
             <button type="submit">Назад</button>
         </form>
@@ -9,11 +9,12 @@
 
 <script>
     export default {
-        name: "ErrorEmail" ,
+        name: "ErrorServer",
         methods: {
             Back: function () {
                 // this.$router.push('/register')
                 this.$router.back()
+
             }
         }
     }

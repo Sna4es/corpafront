@@ -20,17 +20,19 @@
                     {option: 'false'}
                 ],
                 doReplaces: '',
-                text: '',
+                text: "",
             }
         },
         methods: {
             Analyse: function () {
                 let text = this.text;
                 let doReplaces = this.doReplaces
-                this.$store.dispatch('analyseText', {text, doReplaces})
+                let anat = ''
+                // console.log(text+'текст до отправки в store')
+                this.$store.dispatch('analyseText', {text})
                     .then(()=>
-                        console.log(localStorage.getItem('antext')+'   test'),
-                        console.log(localStorage.getItem('mysett')+'tes')
+                        anat = localStorage.getItem('antex'),
+                        console.log(anat+'test')
                     )
                     .catch(error => {
                         this.$router.push('/error')

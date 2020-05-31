@@ -17,6 +17,7 @@ import ErrorAuth from "./components/Errors/ErrorAuth";
 import ErrorCurrentPass from "./components/Errors/ErrorCurrentPass";
 import ErrorConfPass from "./components/Errors/ErrorConfPass";
 import Error400 from "./components/Errors/Error400";
+import ErrorServer from "./components/Errors/ErrorServer";
 
 Vue.use(Router)
 
@@ -135,6 +136,14 @@ let router = new Router({
       path: '/error400',
       name: 'error400',
       component: Error400,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/errorserver',
+      name: 'errorserver',
+      component: ErrorServer,
       meta: {
         requiresAuth: false
       }

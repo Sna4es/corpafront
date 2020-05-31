@@ -19,6 +19,7 @@ export default new Vuex.Store({
         status: '',
         token: localStorage.getItem('token') || '',
         user: {},
+        dat: {},
         username: {},
         userId: {},
         email: {},
@@ -69,10 +70,10 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        login: function ({commit}, user) {
+        login: function ({commit}, dat) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                axios({url: 'http://192.168.1.33:8080/api/v1/auth/login', data: user, method: 'POST'})
+                axios({url: 'http://192.168.1.33:8080/api/v1/auth/login', data: dat, method: 'POST'})
                     .then(response => {
                         const token = response.data.token
                         const username = response.data.username
@@ -82,12 +83,13 @@ export default new Vuex.Store({
                         axios.defaults.headers.common['Authorization'] = token
                         commit('auth_work', token, username, userId)
                         console.log(response)
-                        console.log(token, "     ", username, "    ", userId, '  ' )
+                        // console.log(user, " -user" )
                         resolve(response)
                     }, )
                     .catch(error => {
-                        if (!error.status) {
+                        if (!error.response) {
                             console.log('сервер лежит')
+                            router.push('/errorserver')
                         }
                         if (error.response.status === 401) {
                             console.log('invalid user or pass')
@@ -117,6 +119,10 @@ export default new Vuex.Store({
                         resolve(response)
                     })
                     .catch(error => {
+                        if (!error.response) {
+                            console.log('сервер лежит')
+                            router.push('/errorserver')
+                        }
                         // commit('auth_error', error)
                         // localStorage.removeItem('token')
                         if (error.response.data.message === "Error: Username is already taken!") {
@@ -168,6 +174,10 @@ export default new Vuex.Store({
                         // commit('auth_success',   username)
                     })
                     .catch(error => {
+                        if (!error.response) {
+                            console.log('сервер лежит')
+                            router.push('/errorserver')
+                        }
                         if (error.response.status === 401) {
                             commit('logout')
                             localStorage.removeItem('token')
@@ -189,6 +199,12 @@ export default new Vuex.Store({
                     .then(response => {
                         console.log(response)
                     })
+                    .catch(error => {
+                        if (!error.response) {
+                            console.log('сервер лежит')
+                            router.push('/errorserver')
+                        }
+                    })
             })
         },
         mySettings({commit}, user, mySettingsd) {  // посмотреть свои настройки
@@ -198,8 +214,11 @@ export default new Vuex.Store({
                 // commit('auth_success')
                 axios.get('http://127.0.0.1:8080/api/v1/users/me/settings', {headers: {Authorization: "Bearer " + localStorage.token}})
                     .then(response => {
+                        if (response.status ===200 ) {
+                            console.log('200 store ')
+                        }
                         mySettingsd = response.data
-                        // console.log(response.data)
+                        console.log(response)
                          console.log(mySettingsd)
                        const parsed = JSON.stringify(mySettingsd)
                         localStorage.setItem('mysett', parsed)
@@ -207,6 +226,10 @@ export default new Vuex.Store({
                         resolve(response)
                     })
                     .catch(error => {
+                        if (!error.response) {
+                            console.log('сервер лежит')
+                            router.push('/errorserver')
+                        }
                         if (error.response.status === 401) {
                             commit('logout')
                             localStorage.removeItem('token')
@@ -231,6 +254,10 @@ export default new Vuex.Store({
                             // console.log(response.data)
                         })
                         .catch(error => {
+                            if (!error.response) {
+                                console.log('сервер лежит')
+                                router.push('/errorserver')
+                            }
                             if (error.response.status === 401 ) {
                                 commit('logout')
                                 localStorage.removeItem('token')
@@ -245,7 +272,7 @@ export default new Vuex.Store({
                         })
             })
         },
-        myNewUsername({commit}, user, username, NewUsername) {   // ПЕРЕИМЕНОВАТЬ ПОЛЬЗОВАТЕЛЯ
+        myNewUsername({commit}, user) {   // ПЕРЕИМЕНОВАТЬ ПОЛЬЗОВАТЕЛЯ
             return new Promise((resolve, reject) => {
                 const token = localStorage.token
                 commit('auth_work', token)
@@ -254,28 +281,30 @@ export default new Vuex.Store({
                 const username = 'alex'
                 const kav = '"';
                     // axios.put('http://127.0.0.1:8080/api/v1/users/me/username', { headers: {Authorization: 'Bearer '+ localStorage.token}, username})
-                axios.put('http://127.0.0.1:8080/api/v1/users/me/username', {username}, config)
+                // axios.put('http://127.0.0.1:8080/api/v1/users/me/username', {username}, config)
+                    axios({url:'http://127.0.0.1:8080/api/v1/users/me/username', data:user,  method:"POST"}, config )
                         .then( localStorage.removeItem('token'),
                             response => {
-                            localStorage.removeItem('token')
+                            // localStorage.removeItem('token')
                             delete  axios.defaults.headers.common('Authorization')
-                            commit('logout')
-                            console.log(response)
+                            // commit('logout')
+                            // console.log(response)
+                            // console.log(user+'  user')
                             resolve(response)
-
-
                         }, console.log(user))
                         .catch(error => {
+                            if (!error.response) {
+                                console.log('сервер лежит')
+                                router.push('/errorserver')
+                            }
                             if (error.response.status === 400) {
                                 console.log('error 400')
                                 router.push('/error400')
-                                console.log('error current pass')
-                                router.push('/errorcurrentpass')
                             }
-                            commit('work_error')
+                            // commit('work_error')
                             reject(error)
-                            console.log(error)
-                            console.log(error.response.data)
+                            // console.log(error)
+                            // console.log(error.response.data)
                         })
             })
         },
@@ -292,6 +321,10 @@ export default new Vuex.Store({
                             console.log(response)
                         })
                         .catch(error => {
+                            if (!error.response) {
+                                console.log('сервер лежит')
+                                router.push('/errorserver')
+                            }
                             if (error.response.message === "Check the current password") {
                                 console.log('error current pass')
                                 router.push('/errorcurrentpass')
@@ -318,6 +351,14 @@ export default new Vuex.Store({
                             console.log(response)
                         })
                         .catch(error =>{
+                            if (!error.response) {
+                                console.log('сервер лежит')
+                                router.push('/errorserver')
+                            }
+                            if (error.response.status === 415) {
+                                console.log('error 415')
+                                router.push('/error400')
+                            }
                             reject(error)
                             console.log(error.response.data)
                             console.log(localStorage.token)
@@ -339,24 +380,35 @@ export default new Vuex.Store({
         analyseText({commit}, user, username, token, originalText) {
             return new Promise((resolve, reject) => {
                 const config = {
-                    headers: { Authorization: 'Bearer ' + localStorage.token }, params: {doReplaces: "true"}
-                };
+                    headers: { Authorization: 'Bearer ' + localStorage.token }                };
                 const kav= '"';
-                const atext = 'лук   стоит дом волга ';
+                const atext = {text: "лук   стоит дом волга"}
                 const rep = 'false '
-                    axios.post('http://127.0.0.1:8080/analyse', {text: atext, doReplaces: rep }, config)
+                    // axios.post('http://127.0.0.1:8080/analyse', { text: atext }, config)
+                        axios({
+                            url: 'http://127.0.0.1:8080/analyse',
+                            data: user,
+                            method: 'POST',
+                            headers: { Authorization: 'Bearer ' + localStorage.token }
+                        })
                         .then(response => {
                             const analysedText = response.data
-                            console.log(response)
+                            console.log(response.data)
                             //console.log(analysedText)
                             const parsed = JSON.stringify(analysedText);
                             localStorage.setItem('antext', parsed)
                             // commit('auth_success')
                         })
                         .catch(error => {
+                            if (!error.response) {
+                                console.log('сервер лежит')
+                                router.push('/errorserver')
+                            }
+                            if (error.response.status === 500) {
+                                console.log('error json')
+                            }
                             reject(error)
                             console.log(error.response.data)
-                            console.log(username)
                         })
             })
         }

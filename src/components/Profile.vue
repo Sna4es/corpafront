@@ -5,9 +5,11 @@
         </form>
         <form @submit.prevent="checkSettings" class="checkS">
             <button type="submit">check settings</button>
+            <input type="text" v-model="setti">
         </form>
         <form @submit.prevent="checkReplaces" class="checkR">
             <button type="submit">check replaces</button>
+            <input type="text" v-model="reppl">
         </form>
         <form @submit.prevent="userRename" class="userRename">
             <input type="text" v-model="username" placeholder="Новое имя пользователя">
@@ -42,6 +44,7 @@
                 nPasswordConfirm: '',
                 username: '',
                 setti: '',
+                reppl: '',
 
             }
         },
@@ -60,11 +63,14 @@
 
             },
             checkSettings: function () {
+                let setti = ''
                 this.$store.dispatch('mySettings')
-                    .then(() => console.log(this.$store.getters.isLoggedIn),
+                    .then(() =>
+                        console.log(this.$store.getters.isLoggedIn),
                         console.log(localStorage.getItem('mysett')+'tes'),
-                        console.log(localStorage.getItem('repla')+'repla')
-                        // this.setti = JSON.parse(localStorage.getItem('mysett'))
+                        console.log(localStorage.getItem('repla')+'repla'),
+                        this.setti = (localStorage.getItem('mysett')),
+                        console.log(setti+'setti')
                     )
 
                 .catch(error => {
@@ -75,8 +81,10 @@
                 })
             },
             checkReplaces: function () {
+                let reppl = ''
                 this.$store.dispatch('myReplaces')
-                .then(() => console.log(this.$store.getters.isLoggedIn)
+                .then(() => console.log(this.$store.getters.isLoggedIn),
+                    this.reppl=(localStorage.getItem('repla'))
                 )
                 .catch(error => {
                     if (error.response.status === 401) {
@@ -101,7 +109,7 @@
                     .then(() => this.$router.push('/login'))
                 .catch(error => {
                     this.$router.push('/login')
-                    console.log(error)
+                    //console.log(error)
                 })
             },
             updatePassword: function () {
