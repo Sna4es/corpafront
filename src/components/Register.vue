@@ -4,7 +4,7 @@ import axios from 'axios'
 
 <template>
     <div>
-        <h4>Register</h4>
+        <h4>Регистрация нового пользователя</h4>
         <form @submit.prevent="register">
             <label for="username">Имя пользователя</label>
             <div>
@@ -27,7 +27,7 @@ import axios from 'axios'
             </div>
 
             <div>
-                <button type="submit">Register</button>
+                <button type="submit">Зарегистрироваться</button>
             </div>
         </form>
     </div>
@@ -52,7 +52,8 @@ import axios from 'axios'
                     // is_admin: this.is_admin
                 }
                 this.$store.dispatch('register', data)
-               .then(() => this.$router.push('/login'))
+               .then(() => alert('Регистрация прошла успешно.'),
+                   this.$router.push('/login'))
                .catch(err => console.log(err))
             }
         }

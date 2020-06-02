@@ -5,9 +5,11 @@
         </form>
         <form @submit.prevent="checkSettings" class="checkS">
             <button type="submit">check settings</button>
-            <input type="text" v-model="setti">
+<!--            <input type="text" v-model="setti">-->
+            {{ setti }}
         </form>
         <form @submit.prevent="checkReplaces" class="checkR">
+            {{ reppl }}
             <button type="submit">check replaces</button>
             <input type="text" v-model="reppl">
         </form>
@@ -44,10 +46,11 @@
                 nPasswordConfirm: '',
                 username: '',
                 setti: '',
-                reppl: '',
-
             }
         },
+        reppl: '13131351',
+        replacesres: '+51351351',
+        replaces: '',
         methods: {
             checkProfile: function () {
                 this.$store.dispatch("myProfile")
@@ -55,9 +58,9 @@
                 console.log(this.getters.isLoggedIn, 'afsf'),  console.log(localStorage.getItem('up')+' profilevue'),
                     )
                 .catch(error => {
-                    if (error.response.status === 401){
-                        this.$router.push('/errorauth')
-                    }
+                    // if (error.response.status === 401){
+                    //     this.$router.push('/errorauth')
+                    // }
                     console.log(error)
                 })
 
@@ -74,9 +77,9 @@
                     )
 
                 .catch(error => {
-                    if (error.response.status === 401 ) {
-                        this.$router.push('/errorauth')
-                    }
+                    // if (error.response.status === 401 ) {
+                    //     this.$router.push('/errorauth')
+                    // }
                     console.log(error)
                 })
             },
@@ -84,13 +87,13 @@
                 let reppl = ''
                 this.$store.dispatch('myReplaces')
                 .then(() => console.log(this.$store.getters.isLoggedIn),
-                    this.reppl=(localStorage.getItem('repla'))
+                    this.replacesres=(sessionStorage.getItem('repla'))
                 )
                 .catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push('/errorauth')
-                    }
-
+                    // if (error.response.status === 401) {
+                    //     this.$router.push('/errorauth')
+                    // }
+                    console.log(error)
                 })
             },
             // checkReplaces: function () {
@@ -125,8 +128,8 @@
                     })
             },
             addReplace: function () {
-                let newReplace = this.newReplace
-                this.$store.dispatch('myReplacesSet', {newReplace})
+                let replaces = this.replaces
+                this.$store.dispatch('myReplacesSet', {replaces})
                 .catch(error => {
                     this.$router.push('/error')
                     console.log(error)

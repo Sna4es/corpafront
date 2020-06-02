@@ -7,7 +7,7 @@
      <label>Пароль</label>
      <input required v-model="password" type="password" placeholder="Пароль"/>
      <hr/>
-     <button type="submit">Login</button>
+     <button type="submit">Войти</button>
    </form>
  </div>
 </template>
