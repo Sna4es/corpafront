@@ -149,10 +149,11 @@ export default new Vuex.Store({
                     })
             })
         },
-        logout({commit}) {
+        logout({commit}) {     //// ВЫХОД
             return new Promise((resolve, reject) => {
                 commit('logout')
                 localStorage.removeItem('token')
+                // localStorage.clear()
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })
@@ -322,6 +323,11 @@ export default new Vuex.Store({
                                 alert('Неизвестная ошибка. Обратитесь к разработчику')
                                 // router.push('/error400')
                             }
+                            if (error.response.status === 401 ) {
+                                commit('logout')
+                                localStorage.removeItem('token')
+                                alert('Ошибка. необходимо перезайти.')
+                            }
                             // commit('work_error')
                             reject(error)
                             // console.log(error)
@@ -340,6 +346,7 @@ export default new Vuex.Store({
                     axios({
                         url: 'http://127.0.0.1:8080/api/v1/users/me/password',
                         data: user,
+                        method: 'PUT',
                         headers: { Authorization: 'Bearer ' + localStorage.token }
                     })
                         .then(response => {
@@ -352,6 +359,11 @@ export default new Vuex.Store({
                                 alert('Сервер не отвечает')
                                 // router.push('/errorserver')
                             }
+                            if (error.response.status === 401 ) {
+                                commit('logout')
+                                localStorage.removeItem('token')
+                                alert('Ошибка. необходимо перезайти.')
+                            }
                             if (error.response.message === "Check the current password") {
                                 console.log('error current pass')
                                 alert('Неправильный текущий пароль')
@@ -362,6 +374,7 @@ export default new Vuex.Store({
                                 alert('Новый пароль не совпадает с подтверждением')
                                 //router.push('/errorconfpass')
                             }
+
                             console.log(error)
                             reject(error)
                             // commit('auth_success')
@@ -390,6 +403,11 @@ export default new Vuex.Store({
                                 console.log('сервер лежит')
                                 alert('Сервер не отвечает')
                                // router.push('/errorserver')
+                            }
+                            if (error.response.status === 401 ) {
+                                commit('logout')
+                                localStorage.removeItem('token')
+                                alert('Ошибка. необходимо перезайти.')
                             }
                             if (error.response.status === 415) {
                                 console.log('error 415')
@@ -420,7 +438,8 @@ export default new Vuex.Store({
                     headers: { Authorization: 'Bearer ' + localStorage.token }                };
                 const kav= '"';
                 const atext = {text: "лук   стоит дом волга"}
-                const rep = "true"
+                // const rep = "true"
+                const rep = localStorage.getItem('dorep')
                     // axios.post('http://127.0.0.1:8080/analyse', { text: atext }, config)
                         axios({
                             url: 'http://127.0.0.1:8080/analyse',
@@ -433,7 +452,7 @@ export default new Vuex.Store({
                         .then(response => {
                             const analysedText = response.data
                             console.log(response.data)
-                            //console.log(analysedText)
+                            console.log(rep)
                             const parsed = JSON.stringify(analysedText);
                             localStorage.setItem('antext', parsed)
                             // commit('auth_success')
@@ -444,6 +463,11 @@ export default new Vuex.Store({
                                 alert('Сервер не отвечает')
                                 // router.push('/errorserver')
                             }
+                            if (error.response.status === 401 ) {
+                                commit('logout')
+                                localStorage.removeItem('token')
+                                alert('Ошибка. необходимо перезайти.')
+                            }
                             if (error.response.status === 500) {
                                 console.log('error json')
                                 alert('Ошибка формата данных, обратитесь к разработчику')
@@ -451,6 +475,46 @@ export default new Vuex.Store({
                             reject(error)
                             console.log(error.response.data)
                         })
+            })
+        },
+        // saveAnalyse2 ({commit}, user) {
+        //     return new Promise( (resolve, reject) => {
+        //         axios({
+        //             url: 'сюды ссылку',
+        //             method: 'PUT',
+        //             data: user,
+        //             headers: { Authorization: "Bearer "+ localStorage.token}
+        //         })
+        //             .then(response => {
+        //
+        //             })
+        //
+        //     })
+        // }
+        saveAnalyse({commit}, user ) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: 'сюды ссыль',
+                    data: user,
+                    method: 'POST',
+                    headers: { Authorization: 'Bearer ' + localStorage.token }
+                })
+                    .then(response => {
+
+                    })
+                    .catch(error => {
+                        if (!error.response) {
+                            console.log('сервер лежит')
+                            alert('Сервер не отвечает')
+                            // router.push('/errorserver')
+                        }
+                        if (error.response.status === 500) {
+                            console.log('error json')
+                            alert('Ошибка формата данных, обратитесь к разработчику')
+                        }
+                        reject(error)
+                        console.log(error.response.data)
+                    })
             })
         }
 

@@ -10,14 +10,7 @@ import Profile from "./components/Profile";
 import Analyse from "./components/Analyse";
 import Corpus from "./components/Corpus";
 import Error from "./components/Errors/Error";
-import ErrorUsername from "./components/Errors/ErrorUsername";
-import ErrorPassword from "./components/Errors/ErrorPassword";
-import ErrorEmail from "./components/Errors/ErrorEmail";
-import ErrorAuth from "./components/Errors/ErrorAuth";
-import ErrorCurrentPass from "./components/Errors/ErrorCurrentPass";
-import ErrorConfPass from "./components/Errors/ErrorConfPass";
-import Error400 from "./components/Errors/Error400";
-import ErrorServer from "./components/Errors/ErrorServer";
+
 
 Vue.use(Router)
 
@@ -80,70 +73,6 @@ let router = new Router({
       path: '/error',
       name: 'error',
       component: Error,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/errorusername',
-      name: 'errorusername',
-      component: ErrorUsername,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/errorpassword',
-      name: 'errorpassword',
-      component: ErrorPassword,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/erroremail',
-      name: 'erroremail',
-      component: ErrorEmail,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/errorauth',
-      name: 'errorauth',
-      component: ErrorAuth,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/erroocurrentpass',
-      name: 'erroocurrentpass',
-      component: ErrorCurrentPass,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/errorconfpass',
-      name: 'errorconfpass',
-      component: ErrorConfPass,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/error400',
-      name: 'error400',
-      component: Error400,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/errorserver',
-      name: 'errorserver',
-      component: ErrorServer,
       meta: {
         requiresAuth: false
       }

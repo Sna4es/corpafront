@@ -75,19 +75,29 @@
             Parsing: function () {
                 let analtext = ''
                 var analysis = ''
-                var ptext = [{"analysis":[{"lex":"стол","gr":"S,m,inan=acc,sg"},{"lex":"стол","gr":"S,m,inan=nom,sg"}],"text":"стол"},{"text":"\n"}];
+                var ptext = [{"analysis":[{"lex":"стол","gr":"S,m,inan=acc,sg"},{"lex":"стол","gr":"S,m,inan=nom,sg"}]}];
                // var ptext = [{'someKey':'blabla1'},{'someKey':'blabla2'}]
-                this.ptext=localStorage.getItem('antext')
+               //  this.ptext=localStorage.getItem('antext')
                 // console.log(ptext)
 
                 this.ptext=ptext.forEach(function (item,i,arr) {
-                    analysis += item['text']
-                    // item['analysis'].forEach(function (etem,i,arr) {
-                    //     analysis+='Разбор'+i+':'+item['analysis']
-                    // })
-                    // console.log(item['analysis'])
+                    // analysis += item['text']
+                    item['analysis'].forEach(function (etem,i,arr) {
+                        analysis+='Разбор'+i+':'+item['analysis']
+                    })
+                    console.log(item['analysis'])
                 })
                 console.log(analysis)
+
+                // this.ptext=ptext.forEach(function (item,i,arr) {
+                //         if (item.hasOwnProperty('analysis')) {
+                //             item['analysis'].forEach(function (etem,i,arr) {
+                //                 analysis+='Разбор'+i+':'+item['analysis']
+                //             })
+                //             // analysis += item['analysis']
+                //         } else {
+                //             analysis += item['text']
+                //         }
 
             },
             See: function () {
