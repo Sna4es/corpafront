@@ -10,6 +10,7 @@ import Profile from "./components/Profile";
 import Analyse from "./components/Analyse";
 import Corpus from "./components/Corpus";
 import Error from "./components/Errors/Error";
+import Redactor from "./components/Redactor";
 
 
 Vue.use(Router)
@@ -57,6 +58,14 @@ let router = new Router({
       path: '/analyse',
       name: 'analyse',
       component: Analyse,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/redactor',
+      name: 'redactor',
+      component: Redactor,
       meta: {
         requiresAuth: false
       }

@@ -18,12 +18,14 @@
             <button type="submit">Сменить</button>
         </form>
         <form @submit.prevent="updatePassword" class="updatePassword">
-            <input type="password" v-model="origPassword" placeholder="Старый пароль">
-            <input type="password" v-model="nPassword" placeholder="Новый пароль">
-            <input type="password" v-model="nPasswordConfirm" placeholder="Подтвердите новый пароль">
+            <input type="password" v-model="currentPassword" placeholder="Старый пароль">
+            <input type="password" v-model="newPassword" placeholder="Новый пароль">
+            <input type="password" v-model="newPasswordConfirm" placeholder="Подтвердите новый пароль">
             <button type="submit">Сменить пароль</button>
             <form @submit.prevent="addReplace" class="addReplace">
                 <input type="text" v-model="newReplace" placeholder='{"буква":"буква"}'>
+                <input type="origsym" v-model="origsym" placeholder='заменяемый символ'>
+                <input type="repsym" v-model="repsym" placeholder='заменяющий символ'>
                 <button type="submit">Добавить замену</button>
             </form>
         </form>
@@ -38,7 +40,6 @@
         data() {
             return {
                 newUsername: '',
-                newPassword: '',
                 newReplace: '',
                 profileInfo: {},
                 origPassword: '',
@@ -46,6 +47,11 @@
                 nPasswordConfirm: '',
                 username: '',
                 setti: '',
+                currentPassword: '',
+                newPassword: '',
+                newPasswordConfirm: '',
+                origsym: '',
+                repsym: '',
             }
         },
         reppl: '13131351',
@@ -116,10 +122,10 @@
                 })
             },
             updatePassword: function () {
-                let origPassword = this.origPassword
-                let nPassword = this.nPassword
-                let nPasswordConfirm = this.nPasswordConfirm
-                this.$store.dispatch('myNewPassword', {origPassword, nPassword, nPasswordConfirm})
+                let currentPassword = this.currentPassword
+                let newPassword = this.newPassword
+                let newPasswordConfirm = this.newPasswordConfirm
+                this.$store.dispatch('myNewPassword', {currentPassword, newPassword, newPasswordConfirm})
                     .then( console.log('pass update'))
                     .catch(error => {
                         this.$router.push('/home')
@@ -128,11 +134,18 @@
                     })
             },
             addReplace: function () {
-                let replaces = this.replaces
+                let lev = '"{'
+                let sr = ':'
+                let prav = '}"'
+                let origsym = this.origsym
+                let repsym = this.repsym
+                let replaces = lev+origsym+sr+repsym+prav
+                // let replaces = this.replaces
                 this.$store.dispatch('myReplacesSet', {replaces})
                 .catch(error => {
                     this.$router.push('/error')
                     console.log(error)
+                    console.log(replaces)
                 })
             },
             // userInfo: function () {

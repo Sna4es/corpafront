@@ -2,24 +2,23 @@
     <div>
     <h3>Аналaйз</h3>
         <form @submit.prevent="Analyse" class="analyse">
-            <input type="text" v-model="text" placeholder="vvedi">
             <textarea v-model="text" placeholder="Введите текст для анализа"></textarea>
-            {{ jtext }}
-            <button type="submit">send</button>
+            <select v-model="doReplaces">
+                <option v-for="choice in choices" v-bind:value="choice.option"> {{ choice.text }}</option>
+            </select>
+            <button type="submit">Отправить</button>
         </form>
         <form @submit.prevent="Parsing" class="Parsing">
             <textarea v-model="atext"></textarea>
+            <textarea v-model="analtext"></textarea>
             <button type="submit">Parsing</button>
-            {{ ptext }}
+<!--            {{ ptext }}-->
         </form>
-        <form @submit.prevent="See" class="Receive">
-            <textarea v-model="atext"></textarea>
+        <form @submit.prevent="Receive" class="Receive">
+            <textarea v-model="jtext"></textarea>
 <!--            <input type="text" v-model="atext" placeholder="vvedi">-->
-            <button type="submit">see</button>
+            <button type="submit">receive</button>
         </form>
-        <select v-model="doReplaces" >
-            <option v-for="choice in choices" v-bind:value="choice.option">{{ choice.option }}</option>
-        </select>
     </div>
 </template>
 
@@ -28,8 +27,8 @@
         data() {
             return {
                 choices: [
-                    {option: 'true'},
-                    {option: 'false'}
+                    {text: 'Включена', option: 'true'},
+                    {text: 'Выключена',option: 'false'}
                 ],
                 doReplaces: '',
                 text: "",
@@ -38,12 +37,13 @@
                 ptext: '',
                 jstext: '',
                 params:'',
+                analtext: '2',
 
             }
         },
         anat: "hellp",
         message:"hello",
-        analtext: '',
+        analysis: '',
 
         methods: {
             Analyse: function () {
@@ -56,7 +56,7 @@
                 this.$store.dispatch('analyseText', {text})
                     .then(()=>
                         console.log(doReplaces)
-                        // this.anat = localStorage.getItem('antex'),
+                        // this.text = localStorage.getItem('antex'),
                         // console.log(anat+'test')
                     )
                     .catch(error => {
@@ -66,15 +66,16 @@
             },
             Receive: function () {
                 var jtext = ''
-                 this.jtext = localStorage.getItem('token')
+                 this.jtext = localStorage.getItem('antext')
                 let atext = JSON.parse(jtext)
                 // let atax = JSON.parse(atext)
                 // console.log(atax+'errar')
                 console.log(atext+'atext')
             },
             Parsing: function () {
-                let analtext = ''
+                let analtext = '3'
                 var analysis = ''
+                // var ptext = ''
                 var ptext = [{"analysis":[{"lex":"стол","gr":"S,m,inan=acc,sg"},{"lex":"стол","gr":"S,m,inan=nom,sg"}]}];
                // var ptext = [{'someKey':'blabla1'},{'someKey':'blabla2'}]
                //  this.ptext=localStorage.getItem('antext')
@@ -84,10 +85,11 @@
                     // analysis += item['text']
                     item['analysis'].forEach(function (etem,i,arr) {
                         analysis+='Разбор'+i+':'+item['analysis']
+                        localStorage.setItem('analy', analysis)
                     })
                     console.log(item['analysis'])
                 })
-                console.log(analysis)
+                // console.log(analysis)
 
                 // this.ptext=ptext.forEach(function (item,i,arr) {
                 //         if (item.hasOwnProperty('analysis')) {
@@ -100,14 +102,17 @@
                 //         }
 
             },
-            See: function () {
-                this.atext = localStorage.getItem('antext')
-                console.log(atext)
-            }
+            // See: function () {
+            //     // this.atext = localStorage.getItem('antext')
+            //     this.analtext = localStorage.getItem('analy')
+            //     console.log(analtext)
+            // }
         }
     }
 </script>
 
 <style scoped>
+
+
 
 </style>

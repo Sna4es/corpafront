@@ -402,6 +402,7 @@ export default new Vuex.Store({
                             if (!error.response) {
                                 console.log('сервер лежит')
                                 alert('Сервер не отвечает')
+                                console.log(user)
                                // router.push('/errorserver')
                             }
                             if (error.response.status === 401 ) {
@@ -455,6 +456,7 @@ export default new Vuex.Store({
                             console.log(rep)
                             const parsed = JSON.stringify(analysedText);
                             localStorage.setItem('antext', parsed)
+                            localStorage.setItem('wlist', parsed)
                             // commit('auth_success')
                         })
                         .catch(error => {
@@ -462,6 +464,11 @@ export default new Vuex.Store({
                                 console.log('сервер лежит')
                                 alert('Сервер не отвечает')
                                 // router.push('/errorserver')
+                            }
+                            if (error.response.status === 400) {
+                                console.log('error 400')
+                                alert('Неизвестная ошибка. Обратитесь к разработчику')
+                                // router.push('/error400')
                             }
                             if (error.response.status === 401 ) {
                                 commit('logout')
@@ -494,12 +501,15 @@ export default new Vuex.Store({
         saveAnalyse({commit}, user ) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'сюды ссыль',
+                    url: 'http://127.0.0.1:8080/api/v1/corpus/save',
                     data: user,
                     method: 'POST',
                     headers: { Authorization: 'Bearer ' + localStorage.token }
                 })
                     .then(response => {
+                        if (response.status === 201) {
+                            alert('Сохранено')
+                        }
 
                     })
                     .catch(error => {
@@ -507,6 +517,46 @@ export default new Vuex.Store({
                             console.log('сервер лежит')
                             alert('Сервер не отвечает')
                             // router.push('/errorserver')
+                        }
+                        if (error.response.status === 500) {
+                            console.log('error json')
+                            alert('Ошибка формата данных, обратитесь к разработчику')
+                        }
+                        reject(error)
+                        console.log(error.response.data)
+                    })
+            })
+        },
+        searchCorpus ({commit}, user) {
+            return new Promise( (resolve, reject) =>{
+                axios ({
+                    url:'http://127.0.0.1:8080/api/v1/corpus/search',
+                    data: user,
+                    method:'POST',
+                    headers: { Authorization: 'Bearer ' + localStorage.token },
+                    params: { page: localStorage.page }
+                })
+                    .then(response => {
+                        const sear = response.data
+                        const parsed = JSON.stringify(sear)
+                        localStorage.setItem('searres', parsed)
+
+                    })
+                    .catch(error => {
+                        if (!error.response) {
+                            console.log('сервер лежит')
+                            alert('Сервер не отвечает')
+                            // router.push('/errorserver')
+                        }
+                        if (error.response.status === 400) {
+                            console.log('error 400')
+                            alert('Неизвестная ошибка. Обратитесь к разработчику')
+                            // router.push('/error400')
+                        }
+                        if (error.response.status === 401 ) {
+                            commit('logout')
+                            localStorage.removeItem('token')
+                            alert('Ошибка. необходимо перезайти.')
                         }
                         if (error.response.status === 500) {
                             console.log('error json')

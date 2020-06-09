@@ -7,6 +7,7 @@
       <router-link v-if="isLoggedIn" to="/profile">Профиль пользователя | </router-link>
       <router-link to="/about">About | </router-link>
       <router-link v-if="isLoggedIn" to="/analyse">Анализ | </router-link>
+      <router-link v-if="isLoggedIn" to="/redactor">Редактор | </router-link>
       <router-link v-if="isLoggedIn" to="/corpus">Корпус | </router-link>
       <span v-if="isLoggedIn"><a @click="logout">Выход</a></span>
     </div>
