@@ -1,32 +1,39 @@
 <template>
     <div>
         <form @submit.prevent="checkProfile" class="checkP">
-            <button type="submit">check profile</button>
+            <button class="button" type="submit">check profile</button>
         </form>
+        <hr/>
         <form @submit.prevent="checkSettings" class="checkS">
-            <button type="submit">check settings</button>
+            <button class="button" type="submit">check settings</button>
 <!--            <input type="text" v-model="setti">-->
             {{ setti }}
         </form>
+        <hr/>
         <form @submit.prevent="checkReplaces" class="checkR">
             {{ reppl }}
-            <button type="submit">check replaces</button>
+            <button class="button" type="submit">check replaces</button>
             <input type="text" v-model="reppl">
         </form>
+        <hr/>
         <form @submit.prevent="userRename" class="userRename">
             <input type="text" v-model="username" placeholder="Новое имя пользователя">
-            <button type="submit">Сменить</button>
+            <button class="button" type="submit">Сменить</button>
         </form>
+        <hr/>
         <form @submit.prevent="updatePassword" class="updatePassword">
             <input type="password" v-model="currentPassword" placeholder="Старый пароль">
+            <hr/>
             <input type="password" v-model="newPassword" placeholder="Новый пароль">
+            <hr/>
             <input type="password" v-model="newPasswordConfirm" placeholder="Подтвердите новый пароль">
-            <button type="submit">Сменить пароль</button>
+            <hr/>
+            <button class="button" type="submit">Сменить пароль</button>
             <form @submit.prevent="addReplace" class="addReplace">
                 <input type="text" v-model="newReplace" placeholder='{"буква":"буква"}'>
                 <input type="origsym" v-model="origsym" placeholder='заменяемый символ'>
                 <input type="repsym" v-model="repsym" placeholder='заменяющий символ'>
-                <button type="submit">Добавить замену</button>
+                <button class="button" type="submit">Добавить замену</button>
             </form>
         </form>
     </div>

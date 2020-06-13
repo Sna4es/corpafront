@@ -96,7 +96,7 @@ export default new Vuex.Store({
                         }
                         if (error.response.status === 401) {
                             console.log('invalid user or pass')
-                            alert('Неправильный логин/пароль')
+                            alert('Неправильный логин или пароль. Попробуйте ещё раз.')
                         }
                         commit('auth_error')
                         localStorage.removeItem('token')
@@ -136,13 +136,15 @@ export default new Vuex.Store({
                         if (error.response.data.message === "Error: Username is already taken!") {
                             console.log('error username')
                             //router.push('/errorusername')
+                            router.back()
                             alert('Данное имя пользователя уже занято')
-                            commit('logout')
+                            // commit('logout')
                         } if (error.response.data.message === "Error: Email is already in use!") {
                             console.log('error EMAIL')
                            // router.push('/erroremail')
+                            router.back()
                             alert('Данная электронная почта уже используется')
-                            commit('logout')
+                            // commit('logout')
                         }
                         reject(error)
                        console.log(error.response.data)

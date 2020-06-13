@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home | </router-link>
+      <router-link v-if="isLoggedIn" to="/home">Home | </router-link>
       <router-link v-if="isLoggedOut" to="/login">Вход | </router-link>
       <router-link v-if="isLoggedOut" to="/register">Регистрация | </router-link>
       <router-link v-if="isLoggedIn" to="/profile">Профиль пользователя | </router-link>
-      <router-link to="/about">About | </router-link>
+      <router-link v-if="isLoggedOut" to="/about">О Ресурсе </router-link>
       <router-link v-if="isLoggedIn" to="/analyse">Анализ | </router-link>
       <router-link v-if="isLoggedIn" to="/redactor">Редактор | </router-link>
       <router-link v-if="isLoggedIn" to="/corpus">Корпус | </router-link>
@@ -66,9 +66,44 @@
 
 #nav a:hover {
   text-decoration: underline;
+  text-decoration-color: white;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #4CAF50;
 }
+
+input {
+  width: 200px;
+  font-size: 13px;
+  padding: 6px 0 4px 10px;
+  border: 2px solid #4CAF50;
+  background: #F6F6f6;
+  border-radius: 12px;
+}
+input:focus {
+  width: 200px;
+  font-size: 13px;
+  padding: 6px 0 4px 10px;
+  border: 2px solid #00ace6;
+  background: #F6F6f6;
+  border-radius: 6px;
+}
+
+hr {
+  border: white;
+  color: white;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 19px;
+  border-radius: 12px;
+}
+
 </style>

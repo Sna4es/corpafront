@@ -4,7 +4,7 @@ import axios from 'axios'
 
 <template>
     <div>
-        <h4>Регистрация нового пользователя</h4>
+        <h2>Регистрация нового пользователя</h2>
         <form @submit.prevent="register">
             <label for="username">Имя пользователя</label>
             <div>
@@ -25,9 +25,9 @@ import axios from 'axios'
             <div>
                 <input id="password-confirm" type="password" v-model="password_confirmation" required>
             </div>
-
+            <hr/>
             <div>
-                <button type="submit">Зарегистрироваться</button>
+                <button class="button" type="submit">Зарегистрироваться</button>
             </div>
         </form>
     </div>
@@ -52,10 +52,19 @@ import axios from 'axios'
                     // is_admin: this.is_admin
                 }
                 this.$store.dispatch('register', data)
-               .then(() => alert('Регистрация прошла успешно.'),
-                   this.$router.push('/login'))
-               .catch(err => console.log(err))
+               .then(() => { alert('Регистрация прошла успешно.'),
+                   this.$router.push('/login') } )
+               .catch(err => {
+                   this.$router.back()
+                   console.log(error)
+               })
             }
         }
     }
 </script>
+
+<style scoped>
+
+
+
+</style>
