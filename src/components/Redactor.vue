@@ -2,12 +2,14 @@
     <div>
         <h3>Редактор</h3>
         <form @submit.prevent="Receive" class="analyse">
-            <button type="submit">Запросить</button>
+            <button class="button" type="submit">Запросить</button>
+            <hr/>
             <textarea v-model="wordlist" placeholder="Нажмите кнопку Запросить"></textarea>
         </form>
         <form @submit.prevent="Send" class="analyse">
-            <button type="submit">Сохранить</button>
             <input type="text" placeholder="Введите название текста" v-model="title">
+            <hr/>
+            <button class="button" type="submit">Сохранить</button>
 <!--            <textarea v-model="wordlist" placeholder="Нажмите кнопку Запросить"></textarea>-->
         </form>
     </div>

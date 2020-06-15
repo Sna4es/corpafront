@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h3>Аналaйз</h3>
+    <h3>Аналaйз</h3>
         <form @submit.prevent="Analyse" class="analyse">
             <textarea v-model="text" placeholder="Введите текст для анализа"></textarea>
             <hr/>
             Замена символов <select v-model="doReplaces">
-            <option v-for="choice in choices" v-bind:value="choice.option"> {{ choice.text }}</option>
-        </select>
+                <option v-for="choice in choices" v-bind:value="choice.option"> {{ choice.text }}</option>
+            </select>
             <hr/>
             <button class="button" type="submit">Отправить</button>
         </form>
@@ -16,13 +16,13 @@
             <hr/>
             <textarea v-model="analtext"></textarea>
             <button type="submit">Parsing</button>
-            <!--            {{ ptext }}-->
+<!--            {{ ptext }}-->
             {{ analtext }}
         </form>
         <hr/>
         <form @submit.prevent="Receive" class="Receive">
             <textarea v-model="jtext"></textarea>
-            <!--            <input type="text" v-model="atext" placeholder="vvedi">-->
+<!--            <input type="text" v-model="atext" placeholder="vvedi">-->
             <button type="submit">receive</button>
         </form>
     </div>
@@ -61,7 +61,7 @@
                 // console.log(text+'текст до отправки в store')
                 this.$store.dispatch('analyseText', {text})
                     .then(()=>
-                            console.log(doReplaces)
+                        console.log(doReplaces)
                         // this.text = localStorage.getItem('antex'),
                         // console.log(anat+'test')
                     )
@@ -72,7 +72,7 @@
             },
             Receive: function () {
                 var jtext = ''
-                this.jtext = localStorage.getItem('antext')
+                 this.jtext = localStorage.getItem('antext')
                 let atext = JSON.parse(jtext)
                 // let atax = JSON.parse(atext)
                 // console.log(atax+'errar')
@@ -82,45 +82,30 @@
                 let analtext = '3'
                 var analysis = ''
                 // var ptext = ''
-                // var
-                //     ptext=[{"analysis":[{"lex":"стол","gr":"S,m,inan=acc,sg"},{"lex":"стол","gr":"S,m,inan=nom,sg"}],"text":"стол"}]
-                var ptext = [{"analysis": [{"lex": "стол","gr": "S,m,inan=acc,sg"},{"lex": "стол","gr": "S,m,inan=nom,sg"}
-                        ],
-                        "text": "стол"
-                    },
-                    {
-                        "text": " "
-                    },
-                    { "analysis": [ { "lex": "стоять",  "gr": "V,ipf,intr=inpraes,sg,indic,3p" } ], "text": "стоит"},  {"text": "\n" } ]
-                // var ptext = [{"someKey":"blabla1"},{"key2":"blabla2"}]
-                //  this.ptext=localStorage.getItem('antext')
+                var ptext=[{"analysis":[{"lex":"стол","gr":"S,m,inan=acc,sg"},{"lex":"стол","gr":"S,m,inan=nom,sg"}],"text":"стог"}]
+               // var ptext = [{"someKey":"blabla1"},{"key2":"blabla2"}]
+               //  this.ptext=localStorage.getItem('antext')
                 // console.log(ptext)
                 //
                 this.ptext=ptext.forEach(function (item,i,arr) {
-                    if (item.hasOwnProperty('analysis')) {
                     item['analysis'].forEach(function (etem,j,arrr) {
                         analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
                         analtext +='  грамматика  '+'"' + etem['gr']+'"'
                     })
-                    localStorage.setItem('texyttwqtqwt', item['text'])
-                    analtext+= 'слово '+ item['text'] }
 
-                    //     analtext +='text'+ ptext.text
-                    //     // item['text'].forEach(function (etim,k,arrrr) {
-                    //     //     analtext +=' ориг слово '+etim['text']
-                    //     // })
-                    //
-                    //
-                    //    // analtext += arr['analysis']
+                //     analtext +='text'+ ptext.text
+                //     // item['text'].forEach(function (etim,k,arrrr) {
+                //     //     analtext +=' ориг слово '+etim['text']
+                //     // })
+                //
+                //
+                //    // analtext += arr['analysis']
                     localStorage.setItem('analtext', analtext)
                 })
-                // //  var ptext2=JSON.parse(ptext)
-                // // var ptext3=ptext2.someKey
-                //
-                // console.log(ptext)
-                // var pets = {"pets":[{"name":"jack"},{"name":"john"},{"name":"joe"}]};
-                // var arr = JSON.parse(pets);
-                // alert(arr.pets[0].name);
+                //  var ptext2=JSON.parse(ptext)
+                // var ptext3=ptext2.someKey
+
+                console.log(ptext)
 
                 // console.log(analysis)
 

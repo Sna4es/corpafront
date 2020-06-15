@@ -105,5 +105,17 @@ hr {
   font-size: 19px;
   border-radius: 12px;
 }
+  textarea {
+    background: #f6f6f6;
+    border: 3px solid #4CAF50;
+    border-radius: 12px;
+    padding: 8px 0 8px 10px;
+    resize: both;
+    overflow: auto;
+    width: 75%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+  }
 
 </style>

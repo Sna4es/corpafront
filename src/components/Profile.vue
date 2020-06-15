@@ -1,19 +1,18 @@
 <template>
     <div>
         <form @submit.prevent="checkProfile" class="checkP">
-            <button class="button" type="submit">check profile</button>
+            <button class="button" type="submit">Проверить свой профиль</button>
         </form>
         <hr/>
         <form @submit.prevent="checkSettings" class="checkS">
-            <button class="button" type="submit">check settings</button>
-<!--            <input type="text" v-model="setti">-->
-            {{ setti }}
+            <button class="button" type="submit">Проверить </button>
+            <input type="text" v-model="setti">  настройки профиля   {{ setti }}
         </form>
         <hr/>
         <form @submit.prevent="checkReplaces" class="checkR">
-            {{ reppl }}
-            <button class="button" type="submit">check replaces</button>
+            <button class="button" type="submit">Проверить </button>
             <input type="text" v-model="reppl">
+            <span>список заменяемых символов: </span>    {{ reppl }}
         </form>
         <hr/>
         <form @submit.prevent="userRename" class="userRename">
@@ -53,6 +52,7 @@
                 nPassword: '',
                 nPasswordConfirm: '',
                 username: '',
+                reppl: '',
                 setti: '',
                 currentPassword: '',
                 newPassword: '',
@@ -61,7 +61,6 @@
                 repsym: '',
             }
         },
-        reppl: '13131351',
         replacesres: '+51351351',
         replaces: '',
         methods: {
@@ -100,7 +99,8 @@
                 let reppl = ''
                 this.$store.dispatch('myReplaces')
                 .then(() => console.log(this.$store.getters.isLoggedIn),
-                    this.replacesres=(sessionStorage.getItem('repla'))
+                    this.reppl=(sessionStorage.getItem('repla')),
+                    console.log(reppl+'reppl ssss')
                 )
                 .catch(error => {
                     // if (error.response.status === 401) {
@@ -122,10 +122,10 @@
             userRename: function () {
                 let username = this.username;
                 this.$store.dispatch('myNewUsername', {username})
-                    .then(() => this.$router.push('/login'))
+                    .then(() => console.log('rename succes'))
                 .catch(error => {
-                    this.$router.push('/login')
-                    //console.log(error)
+                    // this.$router.push('/login')
+                    console.log(error)
                 })
             },
             updatePassword: function () {

@@ -303,21 +303,23 @@ export default new Vuex.Store({
                     axios({
                         url:'http://127.0.0.1:8080/api/v1/users/me/username',
                         data:user,
+                        headers: { Authorization: 'Bearer ' + localStorage.token },
                         method:"PUT"}, config )
-                        .then( localStorage.removeItem('token'),
+                        .then(
                             response => {
                             // localStorage.removeItem('token')
-                                alert('Имя успешно изменено, перезайдите.')
-                            delete  axios.defaults.headers.common('Authorization')
+                            // delete  axios.defaults.headers.common('Authorization')
+                            alert('Имя успешно изменено, перезайдите.')
                             // commit('logout')
                             // console.log(response)
                             // console.log(user+'  user')
                             resolve(response)
                         }, console.log(user))
                         .catch(error => {
-                            if (!error.response) {
+                            if (error.response.status != 200) {
+                                if (!error.response) {
                                 console.log('сервер лежит')
-                                alert('Сервер не отвечает')
+                                alert('Сервер не отвечает')}
                                // router.push('/errorserver')
                             }
                             if (error.response.status === 400) {
@@ -344,7 +346,7 @@ export default new Vuex.Store({
                 const kav= '"';
                     //axios.put('http://127.0.0.1:8080/api/v1/users/me/password', { headers: {Authorization: 'Bearer
                 // ' + localStorage.token}, myNewPassword })
-                axios.put('http://127.0.0.1:8080/api/v1/users/me/password', {currentPassword: origPassword, newPassword: nPassword, newPasswordConfirm: kav+nPasswordConfirm+kav}, config)
+                // axios.put('http://127.0.0.1:8080/api/v1/users/me/password', {currentPassword: origPassword, newPassword: nPassword, newPasswordConfirm: kav+nPasswordConfirm+kav}, config)
                     axios({
                         url: 'http://127.0.0.1:8080/api/v1/users/me/password',
                         data: user,
@@ -352,6 +354,7 @@ export default new Vuex.Store({
                         headers: { Authorization: 'Bearer ' + localStorage.token }
                     })
                         .then(response => {
+                            alert('Смена пароля прошла успешно')
                             resolve(response)
                             console.log(response)
                         })
@@ -511,6 +514,8 @@ export default new Vuex.Store({
                     .then(response => {
                         if (response.status === 201) {
                             alert('Сохранено')
+                            console.log(response.status)
+                            console.log(user)
                         }
 
                     })
@@ -525,7 +530,7 @@ export default new Vuex.Store({
                             alert('Ошибка формата данных, обратитесь к разработчику')
                         }
                         reject(error)
-                        console.log(error.response.data)
+                        console.log(error)
                     })
             })
         },
@@ -563,9 +568,30 @@ export default new Vuex.Store({
                         if (error.response.status === 500) {
                             console.log('error json')
                             alert('Ошибка формата данных, обратитесь к разработчику')
+                            console.log(user, localStorage.page)
                         }
                         reject(error)
                         console.log(error.response.data)
+                    })
+            })
+        },
+        getCoprus ({commit}, user ) {
+            return new Promise( (resolve, reject) => {
+                axios({
+                    url: 'http://127.0.0.1:8080/api/v1/corpus/'+user,
+                    method: 'GET',
+                    headers: { Authorization: 'Bearer ' + localStorage.token }
+                })
+                    .then( response => {
+                        const corp = response.data
+                        const parsed = JSON.stringify(corp)
+                        localStorage.setItem('corp', parsed)
+                        console.log(response)
+                        console.log(user)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        reject(error)
                     })
             })
         }

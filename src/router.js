@@ -50,11 +50,11 @@ let router = new Router({
       component: About
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: Profile,
+      path: '/profile',  // путь, используемый при переходе
+      name: 'profile',  // название маршрута
+      component: Profile, // название компонента, куда идёт переадресация
       meta: {
-        requiresAuth: true
+        requiresAuth: true  // доступ только для пользователей системы
       }
     },
     {
