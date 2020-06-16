@@ -21,9 +21,13 @@
         </form>
         <hr/>
         <form @submit.prevent="Receive" class="Receive">
-            <textarea v-model="jtext"></textarea>
+            <textarea v-model="analtext"></textarea>
             <!--            <input type="text" v-model="atext" placeholder="vvedi">-->
             <button type="submit">receive</button>
+        </form>
+        <form @submit.prevent="Replace" class="Receive">
+
+            <button type="submit">replace</button>
         </form>
     </div>
 </template>
@@ -40,6 +44,7 @@
                 text: "",
                 atext: "1",
                 jtext: "51351",
+                qqtext:'',
                 ptext: '',
                 jstext: '',
                 params:'',
@@ -71,12 +76,19 @@
                     })
             },
             Receive: function () {
-                var jtext = ''
-                this.jtext = localStorage.getItem('antext')
-                let atext = JSON.parse(jtext)
+                // var jtext = ''
+                // this.jtext = localStorage.getItem('antext')
+                // let atext = JSON.parse(jtext)
                 // let atax = JSON.parse(atext)
                 // console.log(atax+'errar')
-                console.log(atext+'atext')
+                // console.log(atext+'atext')
+                let jtext = localStorage.getItem('analtext')
+                alert(jtext)
+            },
+            Replace: function () {
+                let qqtext = localStorage.getItem('analtext')
+                let qqext=qqtext.replace("слова","санёчек")
+                alert(qqext)
             },
             Parsing: function () {
                 let analtext = '3'
