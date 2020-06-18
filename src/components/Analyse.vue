@@ -97,7 +97,11 @@
                 let qwtext=qqext.replace(/Разбор:/gi, '"[{"Analysis" : {')
                 let qatext=qwtext.replace(/грамматика/gi, '"gr" :')
                 let qbtext=qatext.replace(/слово/gi, '}, "text" :')
-                alert(qbtext)
+                let qctext=qbtext.replace(/прочие обозначения/gi, '"qual" :')
+                let time = new Date()
+                localStorage.setItem('timedate', time)
+                alert(qctext)
+                alert(time)
             },
             Parsing: function () {
                 let analtext = ''
@@ -118,13 +122,17 @@
                         "analysis": [
                             {
                                 "lex": "стоять",
-                                "gr": "V,ipf,intr=praet,sg,indic,f"
+                                "gr": "V,ipf,intr=praet,sg,indic,f",
+                                "qual": "bastard"
                             }
                         ],
                         "text": "стояла"
                     },
                     {
-                        "text": "\n "
+                        "text": " "
+                    },
+                    {
+                        "text": "3"
                     },
                     {
                         "analysis": [
@@ -136,26 +144,50 @@
                         "text": "дверью"
                     },
                     {
-                        "text": "\n"
+                        "text": "5"
                     }
                 ]
                 // var ptext = [{"someKey":"blabla1"},{"key2":"blabla2"}]
+                // var ptext = [
+                //     {
+                //         "analysis": [
+                //             {
+                //                 "lex": "мычай",
+                //                 "gr": "ADV,parenth=",
+                //                 "qual": "bastard"
+                //             }
+                //         ],
+                //         "text": "мычай"
+                //     },
+                //     {
+                //         "text": "."
+                //     },
+                //     {
+                //         "text": "!"
+                //     },
+                //     {
+                //         "text": "3"
+                //     }
+                //
+                // ]
                 //  this.ptext=localStorage.getItem('antext')
                 // console.log(ptext)
                 //
                 this.ptext=ptext.forEach(function (item,i,arr) {
-                    if (item.hasOwnProperty('analysis')) {
+                    if (item.hasOwnProperty('analysis'))
+                    {
                     item['analysis'].forEach(function (etem,j,arrr) {
                         analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
                         analtext +='  грамматика  '+'"' + etem['gr']+'" '
+                        if (etem.hasOwnProperty('qual')) {
+                        analtext +=' прочие обозначения '+ '"' + etem['qual']+'"'}
                     })
-                    analtext+= 'слово '+'"'+item['text']+'"' } else {
-                        // if (item['text'] = '" a"') {
-                        analtext += item['text']+'   {пробел}'}
+                    // analtext+= ' слово '+'"'+item['text']+'"'
+                    }
+                    {if (item.hasOwnProperty('text')) {
+                        analtext += item['text']
+                    }}
                     // }
-
-
-
                     //     analtext +='text'+ ptext.text
                     //     // item['text'].forEach(function (etim,k,arrrr) {
                     //     //     analtext +=' ориг слово '+etim['text']
@@ -229,6 +261,8 @@ select {
     background-repeat: no-repeat, repeat;
     background-position: right .7em top 50%, 0 0;
     background-size: .65em auto, 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>corpus</h2>
+        <h1>Поиск по известным параметрам</h1>
         <form @submit.prevent="Search" class="analyse">
             <input type="text" placeholder="Грамматические обозначения" v-model="gr">
             <hr/>
@@ -10,15 +10,25 @@
             <hr/>
             <input type="text" placeholder="Автор текста" v-model="username">
             <hr/>
-            <input type="number" placeholder="Страница результатов поиска" v-model="page">
+            Страница результатов поиска
+            <input type="number" class="input-page" placeholder=" № " v-model="page">
             <hr/>
             <button class="button" type="submit">Искать</button>
             <hr/>
-                        <textarea v-model="result" placeholder="Результат поиска"></textarea>
+            <textarea v-model="result" placeholder="Результат поиска"></textarea>
         </form>
+        <h1>Поиск всего корпуса</h1>
         <form @submit.prevent="getCorp" class="checkP">
-            <button class="button" type="submit">ID</button>
-            <input type="text" placeholder="id" v-model="id">
+            Введите id корпуса <input type="text" placeholder="id" v-model="id">
+            <hr/>
+            <button class="button" type="submit"> Искать</button>
+            <hr/>
+            <h2>Результат поиска</h2>
+            <input type="text" placeholder="Автор" v-model="text">
+            <hr/>
+            <input type="text" placeholder="Название текста" v-model="text">
+            <hr/>
+            <textarea v-model="result" placeholder="Результат поиска"></textarea>
         </form>
     </div>
 </template>
@@ -57,5 +67,10 @@
 </script>
 
 <style scoped>
-
+.input-page {
+    width: 33px;
+    padding: 5px  ;
+    margin-left: auto;
+    margin-right: auto;
+}
 </style>

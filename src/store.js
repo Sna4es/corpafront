@@ -116,12 +116,14 @@ export default new Vuex.Store({
                     method: 'POST'
                 })
                     .then(response => {
+                        // alert('Регистрация прошла успешно')
                         // const token = resp.data.token
                         // const user = resp.data.user
                         // localStorage.setItem('token', token)
                         // // Add the following line:
                         // axios.defaults.headers.common['Authorization'] = token
                         // commit('auth_success', token, user)
+                        console.log("регистрация успешна")
                         commit('logout')
                         resolve(response)
                     })
@@ -130,6 +132,11 @@ export default new Vuex.Store({
                             console.log('сервер лежит')
                             // router.push('/errorserver')
                             alert('Сервер не отвечает')
+                        }
+                        if (error.response.status === 400) {
+                            console.log('error 400')
+                            alert('Неизвестная ошибка. Обратитесь к разработчику. Код ошибки: 400')
+                            // router.push('/error400')
                         }
                         // commit('auth_error', error)
                         // localStorage.removeItem('token')
@@ -175,9 +182,12 @@ export default new Vuex.Store({
                         const roles = response.data.roles
                         const userSettings = response.data.userSettings
                         const replaces = response.data.userSettings.replaces
-                        const up = response.data
+                        const up = response.data.id
                         const  parsed = JSON.stringify(up)
-                        sessionStorage.setItem('up', parsed)
+                        const parsed2 = 'id пользователя '+parsed+' логин '+'"'+username+'"'+' почта '+email
+                        sessionStorage.setItem('idp', parsed )
+                        sessionStorage.setItem('loginu', username)
+                        sessionStorage.setItem('emailu', email)
                         // sessionStorage.setItem('uname', username)
                         // console.log(response)
                         // console.log(response.data.id+'cl1')
@@ -324,7 +334,7 @@ export default new Vuex.Store({
                             }
                             if (error.response.status === 400) {
                                 console.log('error 400')
-                                alert('Неизвестная ошибка. Обратитесь к разработчику')
+                                alert('Неизвестная ошибка. Обратитесь к разработчику. Код ошибки: 400')
                                 // router.push('/error400')
                             }
                             if (error.response.status === 401 ) {
@@ -417,7 +427,7 @@ export default new Vuex.Store({
                             }
                             if (error.response.status === 415) {
                                 console.log('error 415')
-                                alert('Неизвестная ошибка, обратитесь к разработчику')
+                                alert('Неизвестная ошибка, обратитесь к разработчику. Код ошибки: 400')
                                 router.push('/error400')
                             }
                             reject(error)
@@ -448,7 +458,7 @@ export default new Vuex.Store({
                 const rep = localStorage.getItem('dorep')
                     // axios.post('http://127.0.0.1:8080/analyse', { text: atext }, config)
                         axios({
-                            url: 'http://127.0.0.1:8080/analyse',
+                            url: 'http://127.0.0.1:8080/api/v1/document/analyse',
                             data: user,
                             method: 'POST',
                             headers: { Authorization: 'Bearer ' + localStorage.token },
@@ -472,7 +482,7 @@ export default new Vuex.Store({
                             }
                             if (error.response.status === 400) {
                                 console.log('error 400')
-                                alert('Неизвестная ошибка. Обратитесь к разработчику')
+                                alert('Неизвестная ошибка. Обратитесь к разработчику. Код ошибки: 400')
                                 // router.push('/error400')
                             }
                             if (error.response.status === 401 ) {
@@ -482,7 +492,7 @@ export default new Vuex.Store({
                             }
                             if (error.response.status === 500) {
                                 console.log('error json')
-                                alert('Ошибка формата данных, обратитесь к разработчику')
+                                alert('Ошибка формата данных, обратитесь к разработчику. Код ошибки: 400')
                             }
                             reject(error)
                             console.log(error.response.data)
@@ -506,7 +516,7 @@ export default new Vuex.Store({
         saveAnalyse({commit}, user ) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'http://127.0.0.1:8080/api/v1/corpus/save',
+                    url: 'http://127.0.0.1:8080/api/v1/document/save',
                     data: user,
                     method: 'POST',
                     headers: { Authorization: 'Bearer ' + localStorage.token }
@@ -525,9 +535,15 @@ export default new Vuex.Store({
                             alert('Сервер не отвечает')
                             // router.push('/errorserver')
                         }
+                        if (error.response.status === 400) {
+                            console.log('error 400')
+                            alert('Неизвестная ошибка. Обратитесь к разработчику. Код ошибки: 400')
+                            console.log(user)
+                            // router.push('/error400')
+                        }
                         if (error.response.status === 500) {
                             console.log('error json')
-                            alert('Ошибка формата данных, обратитесь к разработчику')
+                            alert('Ошибка формата данных, обратитесь к разработчику. Код ошибки: 400')
                         }
                         reject(error)
                         console.log(error)
@@ -537,7 +553,7 @@ export default new Vuex.Store({
         searchCorpus ({commit}, user) {
             return new Promise( (resolve, reject) =>{
                 axios ({
-                    url:'http://127.0.0.1:8080/api/v1/corpus/search',
+                    url:'http://127.0.0.1:8080/api/v1/document/search',
                     data: user,
                     method:'POST',
                     headers: { Authorization: 'Bearer ' + localStorage.token },
@@ -557,7 +573,7 @@ export default new Vuex.Store({
                         }
                         if (error.response.status === 400) {
                             console.log('error 400')
-                            alert('Неизвестная ошибка. Обратитесь к разработчику')
+                            alert('Неизвестная ошибка. Обратитесь к разработчику. Код ошибки: 400')
                             // router.push('/error400')
                         }
                         if (error.response.status === 401 ) {
@@ -567,7 +583,7 @@ export default new Vuex.Store({
                         }
                         if (error.response.status === 500) {
                             console.log('error json')
-                            alert('Ошибка формата данных, обратитесь к разработчику')
+                            alert('Ошибка формата данных, обратитесь к разработчику. Код ошибки: 400')
                             console.log(user, localStorage.page)
                         }
                         reject(error)
@@ -578,7 +594,7 @@ export default new Vuex.Store({
         getCoprus ({commit}, user ) {
             return new Promise( (resolve, reject) => {
                 axios({
-                    url: 'http://127.0.0.1:8080/api/v1/corpus/'+user,
+                    url: 'http://127.0.0.1:8080/api/v1/document/'+user,
                     method: 'GET',
                     headers: { Authorization: 'Bearer ' + localStorage.token }
                 })
@@ -594,7 +610,25 @@ export default new Vuex.Store({
                         reject(error)
                     })
             })
-        }
+        },
+        editCorpus ({commit}, user) {
+            return new Promise( (resolve, reject) => {
+                axios({
+                    url:'http://127.0.0.1:8080/api/v1/document/'+id,
+                    method: 'PUT',
+                    headers: { Authorization: 'Bearer ' + localStorage.token }
+                })
+            })
+        },
+        deleteCorpus ({commit}, user) {
+            return new Promise( (resolve, reject) => {
+                axios({
+                    url:'http://127.0.0.1:8080/api/v1/document/'+id,
+                    method: 'DELETEт',
+                    headers: { Authorization: 'Bearer ' + localStorage.token }
+                })
+            })
+        },
 
     },
 

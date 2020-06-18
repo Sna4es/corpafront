@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link v-if="isLoggedIn" to="/home">Home | </router-link>
+      <router-link v-if="isLoggedIn" to="/home">Главная | </router-link>
       <router-link v-if="isLoggedOut" to="/login">Вход | </router-link>
       <router-link v-if="isLoggedOut" to="/register">Регистрация | </router-link>
       <router-link v-if="isLoggedIn" to="/profile">Профиль пользователя | </router-link>
@@ -116,6 +116,8 @@ hr {
     height: 150px;
     padding: 12px 20px;
     box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
   }
 
 </style>
