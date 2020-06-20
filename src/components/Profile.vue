@@ -22,6 +22,7 @@
 <!--            <input type="text" v-model="reppl">-->
             <hr/>
               {{ reppl }}
+            <hr/> {{ setti }}
         </form>
 <!--        <hr/>-->
         <h2>Смена имени пользователя</h2>
@@ -40,12 +41,12 @@
             <button class="button" type="submit">Сменить пароль</button>
             <h2>Добавление символов для замены</h2>
             <form @submit.prevent="addReplace" class="addReplace">
-                <input type="text" v-model="newReplace" placeholder='{"буква":"буква"}'>
+                <input type="text" v-model="newReplace" placeholder='символ : символ '>
                 <hr/>
-                <input type="origsym" v-model="origsym" placeholder='заменяемый символ'>
-                <hr/>
-                <input type="repsym" v-model="repsym" placeholder='заменяющий символ'>
-                <hr/>
+<!--                <input type="origsym" v-model="origsym" placeholder='заменяемый символ'>-->
+<!--                <hr/>-->
+<!--                <input type="repsym" v-model="repsym" placeholder='заменяющий символ'>-->
+<!--                <hr/>-->
                 <button class="button" type="submit">Добавить замену</button>
             </form>
         </form>
@@ -107,7 +108,7 @@
 
             },
             checkSettings: function () {
-                let setti = ''
+                var setti
                 this.$store.dispatch('mySettings')
                     .then(() =>
                         console.log(this.$store.getters.isLoggedIn),
@@ -128,7 +129,7 @@
                 let reppl = ''
                 this.$store.dispatch('myReplaces')
                 .then(() => console.log(this.$store.getters.isLoggedIn),
-                    this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla')),
+
                     console.log(reppl+'reppl ssss')
                 )
                 .catch(error => {
@@ -137,6 +138,7 @@
                     // }
                     console.log(error)
                 })
+                this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla'))
             },
             // checkReplaces: function () {
             //     this.$store.dispatch('myReplaces')

@@ -6,18 +6,20 @@
             <hr/>
             Замена символов <select v-model="doReplaces">
             <hr/>
-            Замена символов
             <option v-for="choice in choices" v-bind:value="choice.option"> {{ choice.text }}</option>
         </select>
             <hr/>
             <button class="button" type="submit">Отправить</button>
         </form>
         <hr/>
+<!--        <form @submit.prevent="seeAnalyse" class="seeAnalyse">-->
+<!--        <button class="button" type="submit">Просмотреть результат</button>-->
+<!--        </form>-->
+<!--        <hr/>-->
         <form @submit.prevent="Parsing" class="Parsing">
-            <textarea v-model="atext"></textarea>
-            <hr/>
-            <textarea v-model="analtext"></textarea>
-            <button type="submit">Parsing</button>
+<!--            <textarea v-model="text"></textarea>-->
+<!--            <hr/>-->
+            <button class="button" type="submit">Посмотреть результат</button>
             <!--            {{ ptext }}-->
             {{ analtext }}
         </form>
@@ -51,7 +53,9 @@
                 qatext:'',
                 qbtext: '',
                 qctext: '',
+                qdtext: '',
                 ptext: '',
+                qptext: '',
                 jstext: '',
                 params:'',
                 analtext: '',
@@ -64,7 +68,11 @@
 
         methods: {
             Analyse: function () {
-                let text = this.text;
+                if (text != "") {
+                    var text = ''
+                }
+                let analtext = ''
+                var text = this.text;
                 let doReplaces = this.doReplaces
                 let params = doReplaces
                 console.log(doReplaces)
@@ -72,14 +80,19 @@
                 // console.log(text+'текст до отправки в store')
                 this.$store.dispatch('analyseText', {text})
                     .then(()=>
-                            console.log(doReplaces)
-                        // this.text = localStorage.getItem('antex'),
+                            console.log(doReplaces),
+                        alert ('Текст успешно обработан. Нажмите кнопку "Просмотреть результат'),
+                        // this.text = localStorage.getItem('antext'),
+                        console.log(text)
                         // console.log(anat+'test')
                     )
                     .catch(error => {
                         this.$router.push('/error')
                         console.log(error, 'anerror')
                     })
+            },
+            seeAnalyse: function () {
+                this.text = localStorage.getItem('antext')
             },
             Receive: function () {
                 // var jtext = ''
@@ -92,21 +105,44 @@
                 alert(jtext)
             },
             Replace: function () {
-                let qqtext = localStorage.getItem('analtext')
-                let qqext=qqtext.replace(/Форма слова/gi,',"lex" :')
-                let qwtext=qqext.replace(/Разбор:/gi, '"[{"Analysis" : {')
-                let qatext=qwtext.replace(/грамматика/gi, '"gr" :')
-                let qbtext=qatext.replace(/слово/gi, '}, "text" :')
-                let qctext=qbtext.replace(/прочие обозначения/gi, '"qual" :')
-                let time = new Date()
-                localStorage.setItem('timedate', time)
+                let qqtext = localStorage.getItem('antext')
+                let qqext = qqtext.replace(/Форма слова/gi,',"lex" :')
+                let qwtext = qqext.replace(/Разбор:/gi, '"[{"Analysis" : {')
+                let qatext =  qwtext.replace(/грамматика/gi, '"gr" :')
+                let qbtext = qatext.replace(/текст/gi, '}, "text" :')
+                let qctext = qbtext.replace(/прочие обозначения/gi, '"qual" :')
+                // let qdtext = qctext.replace(//)
                 alert(qctext)
-                alert(time)
+                this.text = qctext
             },
             Parsing: function () {
                 let analtext = ''
+                let ptext = JSON.parse(localStorage.getItem('wlist'))
+                ptext.forEach(function (item, i, arr) {
+                    if (item.hasOwnProperty('analysis')) {
+                        item['analysis'].forEach(function (etem,j,arrr) {
+                        analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
+                        analtext +='  грамматика  '+'"' + etem['gr']+'" '
+                        if (etem.hasOwnProperty('qual')) {
+                        analtext +=' прочие обозначения '+ '"' + etem['qual']+'"'}
+                        })
+                    }
+                    {if (item.hasOwnProperty('text')) {
+                        analtext +=' текст '+'"' + item['text'] + '"'
+                    }}
+
+                })
+                // console.log(ptext)
+                console.log(analtext)
+                localStorage.setItem('razbor', analtext)
+                this.text = analtext
+                alert(analtext)
+            },
+            Parsing2: function () {
+                let analtext = ''
                 var analysis = ''
-                // var ptext = ''
+                let qptext = ''
+                let ptext = localStorage.getItem('wlist')
                 // var
                 //     ptext=[{"analysis":[{"lex":"стол","gr":"S,m,inan=acc,sg"},{"lex":"стол","gr":"S,m,inan=nom,sg"}],"text":"стол"}]
                 // var ptext = [{"analysis": [{"lex": "стол","gr": "S,m,inan=acc,sg"},{"lex": "стол","gr": "S,m,inan=nom,sg"}
@@ -117,63 +153,17 @@
                 //         "text": " "
                 //     },
                 //     { "analysis": [ { "lex": "стоять",  "gr": "V,ipf,intr=inpraes,sg,indic,3p" } ], "text": "стоит"},  {"text": "\n" } ]
-                var ptext = [
-                    {
-                        "analysis": [
-                            {
-                                "lex": "стоять",
-                                "gr": "V,ipf,intr=praet,sg,indic,f",
-                                "qual": "bastard"
-                            }
-                        ],
-                        "text": "стояла"
-                    },
-                    {
-                        "text": " "
-                    },
-                    {
-                        "text": "3"
-                    },
-                    {
-                        "analysis": [
-                            {
-                                "lex": "дверь",
-                                "gr": "S,f,inan=ins,sg"
-                            }
-                        ],
-                        "text": "дверью"
-                    },
-                    {
-                        "text": "5"
-                    }
-                ]
-                // var ptext = [{"someKey":"blabla1"},{"key2":"blabla2"}]
-                // var ptext = [
-                //     {
-                //         "analysis": [
-                //             {
-                //                 "lex": "мычай",
-                //                 "gr": "ADV,parenth=",
-                //                 "qual": "bastard"
-                //             }
-                //         ],
-                //         "text": "мычай"
-                //     },
-                //     {
-                //         "text": "."
-                //     },
-                //     {
-                //         "text": "!"
-                //     },
-                //     {
-                //         "text": "3"
-                //     }
-                //
-                // ]
-                //  this.ptext=localStorage.getItem('antext')
+                // this.ptext = localStorage.getItem('antext')
                 // console.log(ptext)
+                // let ptext = [{"analysis":[{"lex":"стол","gr":"S,m,inan=acc,pl"},{"lex":"стол","gr":"S,m,inan=nom,pl"}],"text":"столы"},{"text":"."},{"text":" "},{"analysis":[{"lex":"бежать","gr":"V,intr=sg,imper,2p,ipf"},{"lex":"бежать","gr":"V,intr=sg,imper,2p,pf"}],"text":"беги"},{"text":"!"},{"text":"\n"}]
+
+                 // this.ptext=localStorage.getItem('antext')
+                console.log(ptext)
                 //
-                this.ptext=ptext.forEach(function (item,i,arr) {
+                // ptext = localStorage.getItem('antext')
+                // this.ptext = JSON.stringify(qptext)
+                // console.log(qptext)
+                ptext.forEach(function (item,i,arr) {
                     if (item.hasOwnProperty('analysis'))
                     {
                     item['analysis'].forEach(function (etem,j,arrr) {
@@ -216,13 +206,15 @@
                 //         } else {
                 //             analysis += item['text']
                 //         }
+                // this.text = analtext
+                console.log(ptext)
 
             },
-            // See: function () {
-            //     // this.atext = localStorage.getItem('antext')
-            //     this.analtext = localStorage.getItem('analy')
-            //     console.log(analtext)
-            // }
+            See: function () {
+                // this.atext = localStorage.getItem('antext')
+                this.analtext = localStorage.getItem('analy')
+                console.log(analtext)
+            }
         }
     }
 </script>

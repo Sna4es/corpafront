@@ -162,7 +162,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit('logout')
                 localStorage.removeItem('token')
-                // localStorage.clear()
+                localStorage.clear()
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })
@@ -192,6 +192,7 @@ export default new Vuex.Store({
                         // console.log(response)
                         // console.log(response.data.id+'cl1')
                         console.log(sessionStorage.up + '  store')
+                        console.log(response)
                         // console.log(" 2 ", username," 3 ", email," 4 ", roles)
                         // commit('auth_work', token)
                         // commit('auth_success',   username)
@@ -450,12 +451,7 @@ export default new Vuex.Store({
         // }
         analyseText({commit}, user, username, token, originalText) {
             return new Promise((resolve, reject) => {
-                const config = {
-                    headers: { Authorization: 'Bearer ' + localStorage.token }                };
-                const kav= '"';
-                const atext = {text: "лук   стоит дом волга"}
-                // const rep = "true"
-                const rep = localStorage.getItem('dorep')
+                const rep = localStorage.getItem('dorep')  //НЕ УДАЛЯТЬ
                     // axios.post('http://127.0.0.1:8080/analyse', { text: atext }, config)
                         axios({
                             url: 'http://127.0.0.1:8080/api/v1/document/analyse',
@@ -467,8 +463,8 @@ export default new Vuex.Store({
                         })
                         .then(response => {
                             const analysedText = response.data
-                            console.log(response.data)
-                            console.log(rep)
+                            // console.log(response.data)
+                            // console.log(rep)
                             const parsed = JSON.stringify(analysedText);
                             localStorage.setItem('antext', parsed)
                             localStorage.setItem('wlist', parsed)
@@ -563,6 +559,7 @@ export default new Vuex.Store({
                         const sear = response.data
                         const parsed = JSON.stringify(sear)
                         localStorage.setItem('searres', parsed)
+                        console.log(user)
 
                     })
                     .catch(error => {
@@ -583,7 +580,7 @@ export default new Vuex.Store({
                         }
                         if (error.response.status === 500) {
                             console.log('error json')
-                            alert('Ошибка формата данных, обратитесь к разработчику. Код ошибки: 400')
+                            alert('Ошибка формата данных, обратитесь к разработчику. Код ошибки: 500')
                             console.log(user, localStorage.page)
                         }
                         reject(error)
