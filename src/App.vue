@@ -88,6 +88,7 @@ input:focus {
   border: 2px solid #00ace6;
   background: #F6F6f6;
   border-radius: 6px;
+  outline:none;
 }
 
 hr {
@@ -104,6 +105,7 @@ hr {
   display: inline-block;
   font-size: 19px;
   border-radius: 12px;
+  outline:none;
 }
   textarea {
     background: #f6f6f6;
@@ -118,6 +120,11 @@ hr {
     box-sizing: border-box;
     margin-left: auto;
     margin-right: auto;
+    outline:none;
+  }
+  textarea:focus {
+    border: 2px solid #00ace6;
+    border-radius: 1px;
   }
 
 </style>

@@ -23,6 +23,8 @@
         data () {
             return {
                 wordlist: '',
+                title: '',
+                tags:'',
                 words: '',
                 ptext: '',
                 analtext: '',
@@ -42,8 +44,6 @@
             }
         },
 
-        title: '',
-        tags:'',
 
         methods: {
             // Receive: function () {    // временно не трогать
@@ -71,18 +71,19 @@
                 localStorage.setItem('razbor2', analtext) // для отладки
                 this.wordlist = analtext
                 alert(analtext)
+                console.log(ptext)
             },
             Send: function () {
                 let title = this.title;
                 let wordlist = this.wordlist
                 let tags = this.tags
                 let watext=wordlist.replace(/Форма слова/gi,'"lex" :')
-                let wbtext=watext.replace(/Разбор:/gi, '"[{"Analysis" : {')
+                let wbtext=watext.replace(/Разбор:/gi, '{"Analysis" : {')
                 let wctext=wbtext.replace(/грамматика/gi, ',"gr" :')
                 let wdtext=wctext.replace(/текст/gi, '}, {"text" :')
                 let wetext=wdtext.replace(/прочие обозначения/gi, '"qual" :')
-                let words = wetext+'}]'
-                console.log(wetext)
+                let words ='[' + wetext + '}]'
+                console.log(words)
                 // let words = [
                 //     {
                 //         "analysis": {

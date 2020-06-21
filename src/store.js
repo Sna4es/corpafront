@@ -162,7 +162,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit('logout')
                 localStorage.removeItem('token')
-                localStorage.clear()
+                // localStorage.clear()
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })
@@ -529,6 +529,7 @@ export default new Vuex.Store({
                         if (!error.response) {
                             console.log('сервер лежит')
                             alert('Сервер не отвечает')
+                            console.log(user)
                             // router.push('/errorserver')
                         }
                         if (error.response.status === 400) {
@@ -560,6 +561,7 @@ export default new Vuex.Store({
                         const parsed = JSON.stringify(sear)
                         localStorage.setItem('searres', parsed)
                         console.log(user)
+                        alert('Для просмотра результатов поиска нажмите кнопку "Просмотреть"')
 
                     })
                     .catch(error => {
@@ -599,6 +601,26 @@ export default new Vuex.Store({
                         const corp = response.data
                         const parsed = JSON.stringify(corp)
                         localStorage.setItem('corp', parsed)
+                        console.log(response)
+                        console.log(user)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        reject(error)
+                    })
+            })
+        },
+        getMyCorpus ({commit}, user ) {
+            return new Promise( (resolve, reject) => {
+                axios({
+                    url: 'http://127.0.0.1:8080/api/v1/document/user/me',
+                    method: 'GET',
+                    headers: { Authorization: 'Bearer ' + localStorage.token }
+                })
+                    .then( response => {
+                        const corp = response.data
+                        const parsed = JSON.stringify(corp)
+                        localStorage.setItem('mycorp', parsed)
                         console.log(response)
                         console.log(user)
                     })

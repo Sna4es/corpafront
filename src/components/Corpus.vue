@@ -1,7 +1,8 @@
 <template>
     <div>
         <h1>Поиск по известным параметрам</h1>
-        <form @submit.prevent="Search" class="analyse">
+        <hr/>
+        <form @submit.prevent="Search" class="Analyse">
             <input type="text" placeholder="Грамматические обозначения" v-model="gr">
             <hr/>
             <input type="text" placeholder="Форма слова" v-model="lex">
@@ -14,25 +15,12 @@
             <input type="number" class="input-page" placeholder=" № " v-model="page">
             <hr/>
             <button class="button" type="submit">Искать</button>
+            <hr/>
         </form>
-        <hr/>
-        <form @submit.prevent="Seecorp" class="analyse">
-            <button class="button" type="submit">Показать результат поиска</button>
+        <form @submit.prevent="Seecorp" class="Analyse">
+            <button class="button" type="submit">Посмотреть</button>
             <hr/>
-            <textarea v-model="resp" placeholder="Результат поиска"></textarea>
-        </form>
-        <h1>Поиск всего корпуса</h1>
-        <form @submit.prevent="getCorp" class="checkP">
-            Введите id корпуса <input type="text" placeholder="id" v-model="id">
-            <hr/>
-            <button class="button" type="submit"> Искать</button>
-            <hr/>
-            <h2>Результат поиска</h2>
-            <input type="text" placeholder="Автор" v-model="text">
-            <hr/>
-            <input type="text" placeholder="Название текста" v-model="text">
-            <hr/>
-            <textarea v-model="result" placeholder="Результат поиска"></textarea>
+            <textarea v-model="idtext" placeholder="seee"></textarea>
         </form>
     </div>
 </template>
@@ -41,20 +29,79 @@
     export default {
         data () {
             return {
-                gr: null,
+                sresult: '',
+                sres: '',
+                idtext: '',
+                gr: '',
                 lex: '',
                 text: '',
                 username: '',
-                page: int,
-                id: '',
-                // result: '',
             }
         },
-        resp: '',
-        sres: '',
-        sresult: '',
-        // result: '',
         methods: {
+            Seecorp: function () {     // /document/search поиск по id, lex, gr...
+                let resp
+                // let rezultat = ''
+                let sresult = ''
+                let idtext
+                // this.result = localStorage.getItem('searres')
+                var sres = [
+                    {
+                        "documentAuthorUsername": "avtor",
+                        "documentExcerpt":
+                            [
+                                {
+                                    "analysis":
+                                        {
+                                            "gr": "pril",
+                                            "lex": "стоять",
+                                            // "qual": "bastard"
+                                        },
+                                    "text": "стоял"
+                                }
+                            ],
+                        "documentID": "151",
+                        "documentTitle": "заголовок"
+                    }
+                ]
+                sres.forEach(function (item, i, arr) {
+                    if (item.hasOwnProperty('documentAuthorUsername')) {
+                        sresult += 'Автор корпуса ' + '"' + item['documentAuthorUsername'] + '"'
+                    }
+                    if (item.hasOwnProperty('documentExcerpt')) {
+                        item['documentExcerpt'].forEach(function (etem , j , arq) {
+                            if (etem.hasOwnProperty('text')) {
+                                sresult += ' текст ' + '"' + etem['text'] + '"'
+                            }
+                            if (etem.hasOwnProperty('analysis')) {
+                                // sresult +=' грамматика ' + etem['analysis'].gr
+                                // sresult +=' форма слова ' + etem['lex'].lex
+                                sresult += 'analy'+ etem['lex']
+                            }
+                            // if (etem.hasOwnProperty('Analysis')) {
+
+                            //         etem['Analysis'].forEach(function (dtem , k , arrr) {
+                            //             sresult += dtem['lex']
+                            //             sresult += dtem['gr']
+                            //             if (dtem.hasOwnProperty('qual')) {
+                            //                 sresult += 'прочие обозначения '+ dtem['qual']
+                            //             }
+                            //         })
+                            //     }
+                        })
+                    }
+                    if (item.hasOwnProperty('documentID')) {
+                        sresult +=' id корпуса ' + '"' + item['documentID'] + '"'
+                    }
+                    if (item.hasOwnProperty('documentTitle')) {
+                        sresult +=' название документа ' + '"' + item['documentTitle'] + '"'
+                    }
+                })
+                this.idtext = sresult
+                alert(sresult)
+                // console.log(sresult)
+                console.log(idtext + 'idtext')
+            },
             Search: function () {
                 let gr = this.gr;
                 let lex = this.lex;
@@ -63,59 +110,22 @@
                 let page = this.page
                 localStorage.setItem('page', page)
                 this.$store.dispatch('searchCorpus',{gr, lex, text, username})
-                .then(()=> alert('Поиск успешно произведён')
-                )
-                .catch(error => {
-                    console.log(error)
-                    alert(error)
-                })
+                    .then(()=> alert('Поиск успешно произведён')
+                    )
+                    .catch(error => {
+                        console.log(error)
+                        alert(error)
+                    })
             },
-            Seecorp: function () {
-                let sresult
-                // this.result = localStorage.getItem('searres')
-                var sres = [
-                    {
-                        "documentAuthorUsername": "avtor",
-                        "documentExcerpt": [
-                            {
-                                "analysis": {
-                                    "gr": "pril",
-                                    "lex": "стоять",
-                                    "qual": "bastard"
-                                },
-                                "text": "стоял"
-                            }
-                        ],
-                        "documentID": "15",
-                        "documentTitle": "заголовок"
-                    }
-                ]
-                sres.forEach(function (i, item , arr) {
-                    if (item.hasOwnProperty('documentAuthorUsername')) {
-                        sresult += item['documentAuthorUsername']
-                    }
-                    alert(sresult)
-
-                })
-
-            },
-            getCorp: function () {
-                let id = this.id
-                this.$store.dispatch('getCoprus', id)
-                this.result =  localStorage.getItem('corp')
-            },
-            Seegcorp: function () {
-
-            }
         }
     }
 </script>
 
 <style scoped>
-.input-page {
-    width: 33px;
-    padding: 5px  ;
-    margin-left: auto;
-    margin-right: auto;
-}
+    .input-page {
+        width: 33px;
+        padding: 5px  ;
+        margin-left: auto;
+        margin-right: auto;
+    }
 </style>
