@@ -568,6 +568,8 @@ export default new Vuex.Store({
                         if (!error.response) {
                             console.log('сервер лежит')
                             alert('Сервер не отвечает')
+                            console.log(user)
+                            console.log('page '+localStorage.page)
                             // router.push('/errorserver')
                         }
                         if (error.response.status === 400) {

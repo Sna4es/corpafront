@@ -55,7 +55,7 @@
                 ptext.forEach(function (item, i, arr) {
                     if (item.hasOwnProperty('analysis')) {
                         item['analysis'].forEach(function (etem,j,arrr) {
-                            analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
+                                analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
                             analtext +='  грамматика  '+'"' + etem['gr']+'" '
                             if (etem.hasOwnProperty('qual')) {
                                 analtext +=' прочие обозначения '+ '"' + etem['qual']+'"'}
