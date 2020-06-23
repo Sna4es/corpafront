@@ -224,8 +224,16 @@
                                 "qual":"bastard"
                             },
                             "text":"йода"
+                        },
+                        {
+                            "analysis":{
+                                "lex":"стоять",
+                                "gr":"V,ipf,intr=praet,sg,indic,m",
+                                "qual":"abort"
+                            },
+                            "text":"стоял"
                         }
-                    ],
+                        ],
                     "tags":[
                         "тестовый тэг"
                     ],
@@ -239,7 +247,7 @@
                 this.idcor = corid._id
                 corid.words.forEach(function (mtem, m , mrr) {
                     if (mtem.hasOwnProperty('analysis')){
-                        idresult +=' Разбор: грамматика  '+'"' + mtem.analysis.lex + '"'
+                        idresult +=' Разбор: грамматика  '+'"' + mtem.analysis.gr + '"'
                         idresult +=' форма слова '+ '"'+ mtem.analysis.lex + '"'
                         if (mtem.analysis.hasOwnProperty('qual')) {
                             idresult +=' прочие обозначения ' + '"' +mtem.analysis.qual + '"'

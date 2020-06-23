@@ -81,7 +81,7 @@
                 this.$store.dispatch('analyseText', {text})
                     .then(()=>
                             console.log(doReplaces),
-                        alert ('Текст успешно обработан. Нажмите кнопку "Просмотреть результат'),
+                        // alert ('Текст успешно обработан. Нажмите кнопку "Просмотреть результат'),
                         // this.text = localStorage.getItem('antext'),
                         console.log(text)
                         // console.log(anat+'test')

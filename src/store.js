@@ -468,6 +468,7 @@ export default new Vuex.Store({
                             const parsed = JSON.stringify(analysedText);
                             localStorage.setItem('antext', parsed)
                             localStorage.setItem('wlist', parsed)
+                            alert ('Текст успешно обработан. Нажмите кнопку "Просмотреть результат')
                             // commit('auth_success')
                         })
                         .catch(error => {
@@ -650,7 +651,6 @@ export default new Vuex.Store({
                 })
             })
         },
-
     },
 
 

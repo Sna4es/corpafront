@@ -33,6 +33,8 @@
                 wctext: '',
                 wdtext: '',
                 wetext: '',
+                wftext: '',
+                wgtext: '',
                 wtext1: '',
                 wtext2: '',
                 wtext3: '',
@@ -56,13 +58,13 @@
                     if (item.hasOwnProperty('analysis')) {
                         item['analysis'].forEach(function (etem,j,arrr) {
                                 analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
-                            analtext +='  грамматика  '+'"' + etem['gr']+'" '
+                            analtext +=' грамматика '+'"' + etem['gr']+'" '
                             if (etem.hasOwnProperty('qual')) {
                                 analtext +=' прочие обозначения '+ '"' + etem['qual']+'"'}
                         })
                     }
                     {if (item.hasOwnProperty('text')) {
-                        analtext +=' текст '+'"' + item['text'] + '"'
+                        analtext +=' текст '+'"' + item['text'] + ' "'
                     }}
 
                 })
@@ -80,9 +82,11 @@
                 let watext=wordlist.replace(/Форма слова/gi,'"lex" :')
                 let wbtext=watext.replace(/Разбор:/gi, '{"Analysis" : {')
                 let wctext=wbtext.replace(/грамматика/gi, ',"gr" :')
-                let wdtext=wctext.replace(/текст/gi, '}, {"text" :')
+                let wdtext=wctext.replace(/текст/gi, ', "text" :')
                 let wetext=wdtext.replace(/прочие обозначения/gi, '"qual" :')
-                let words ='[' + wetext + '}]'
+                let wftext=wetext.replace(/" {/gi, '" } , { ')
+                let wgtext=wftext.replace(/  /gi, ' }')
+                let words ='[' + wgtext + '}]'
                 console.log(words)
                 // let words = [
                 //     {
