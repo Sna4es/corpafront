@@ -78,26 +78,27 @@
                 // let rezultat = ''
                 let sresult = ''
                 let sertext
+                let sres = JSON.parse(localStorage.getItem('searres'))
                 // this.result = localStorage.getItem('searres')
-                var sres = [
-                    {
-                        "documentAuthorUsername": "avtor",
-                        "documentExcerpt":
-                            [
-                                {
-                                    "analysis":
-                                        {
-                                            "gr": "S,j,pril",
-                                            "lex": "стоять",
-                                            "qual": "bastard"
-                                        },
-                                    "text": "стоял"
-                                }
-                            ],
-                        "documentID": "151",
-                        "documentTitle": "заголовок"
-                    }
-                ]
+                // var sres = [
+                //     {
+                //         "documentAuthorUsername": "avtor",
+                //         "documentExcerpt":
+                //             [
+                //                 {
+                //                     "analysis":
+                //                         {
+                //                             "gr": "S,j,pril",
+                //                             "lex": "стоять",
+                //                             "qual": "bastard"
+                //                         },
+                //                     "text": "стоял"
+                //                 }
+                //             ],
+                //         "documentID": "151",
+                //         "documentTitle": "заголовок"
+                //     }
+                // ]
                 sres.forEach(function (item, i, arr) {
                     if (item.hasOwnProperty('documentAuthorUsername')) {
                         sresult += 'Автор корпуса ' + '"' + item['documentAuthorUsername'] + '"'

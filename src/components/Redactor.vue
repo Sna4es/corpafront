@@ -25,6 +25,7 @@
                 wordlist: '',
                 title: '',
                 tags:'',
+                tags2:'',
                 words: '',
                 ptext: '',
                 analtext: '',
@@ -78,7 +79,8 @@
             Send: function () {
                 let title = this.title;
                 let wordlist = this.wordlist
-                let tags = this.tags
+                // let tags2 = this.tags2
+                let tags = JSON.stringify([this.tags])
                 let watext=wordlist.replace(/Форма слова/gi,'"lex" :')
                 let wbtext=watext.replace(/Разбор:/gi, '{"Analysis" : {')
                 let wctext=wbtext.replace(/грамматика/gi, ',"gr" :')
@@ -86,8 +88,11 @@
                 let wetext=wdtext.replace(/прочие обозначения/gi, '"qual" :')
                 let wftext=wetext.replace(/" {/gi, '" } , { ')
                 let wgtext=wftext.replace(/  /gi, ' }')
-                let words ='[' + wgtext + '}]'
-                console.log(words)
+                let words3 ='[' + wgtext + '}]'
+                let words = JSON.parse(words3)
+                console.log(tags)
+                // let words = [ {"Analysis" : { "lex" : "стол" ,"gr" : "S,m,inan=nom,sg" }, "text" : "стол "}]
+                // console.log(words)
                 // let words = [
                 //     {
                 //         "analysis": {
@@ -98,7 +103,8 @@
                 //         "text": "string"
                 //     }
                 // ]
-                this.$store.dispatch('saveAnalyse', {title , tags , words})
+
+                this.$store.dispatch('saveAnalyse', {title , tags, words})
             }
         },
 

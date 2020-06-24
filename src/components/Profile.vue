@@ -179,7 +179,8 @@
                 let repsym = this.repsym
                 // let replaces = lev+origsym+sr+repsym+prav
                 // let replaces = this.replaces
-                let replaces = 'additionalProp1" : "string'
+                // let replaces = 'additionalProp1" : "string'
+                let replaces = this.newReplace
                 this.$store.dispatch('myReplacesSet', {replaces})
                 .catch(error => {
                     this.$router.push('/error')

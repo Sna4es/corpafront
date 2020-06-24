@@ -368,6 +368,7 @@ export default new Vuex.Store({
                             alert('Смена пароля прошла успешно')
                             resolve(response)
                             console.log(response)
+                            console.log(user)
                         })
                         .catch(error => {
                             if (!error.response) {
@@ -562,6 +563,7 @@ export default new Vuex.Store({
                         const parsed = JSON.stringify(sear)
                         localStorage.setItem('searres', parsed)
                         console.log(user)
+                        console.log(response)
                         alert('Для просмотра результатов поиска нажмите кнопку "Просмотреть"')
 
                     })
@@ -604,6 +606,7 @@ export default new Vuex.Store({
                         const corp = response.data
                         const parsed = JSON.stringify(corp)
                         localStorage.setItem('corp', parsed)
+                        alert('Для просмотра результатов поиска нажмите кнопку "Просмотреть"')
                         console.log(response)
                         console.log(user)
                     })
