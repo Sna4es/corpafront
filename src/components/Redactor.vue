@@ -27,6 +27,7 @@
                 tags:'',
                 tags2:'',
                 words: '',
+                words3: '',
                 ptext: '',
                 analtext: '',
                 watext: '',
@@ -36,6 +37,8 @@
                 wetext: '',
                 wftext: '',
                 wgtext: '',
+                whtext: '',
+                witext: '',
                 wtext1: '',
                 wtext2: '',
                 wtext3: '',
@@ -53,6 +56,7 @@
             //     this.wordlist = localStorage.getItem('razbor')
             // },
             Receive: function () {
+                var re = new RegExp("^([0-9]{5,})$")
                 let analtext = ''
                 let ptext = JSON.parse(localStorage.getItem('wlist'))
                 ptext.forEach(function (item, i, arr) {
@@ -62,11 +66,16 @@
                             analtext +=' грамматика '+'"' + etem['gr']+'" '
                             if (etem.hasOwnProperty('qual')) {
                                 analtext +=' прочие обозначения '+ '"' + etem['qual']+'"'}
+                                analtext += ' слово ' + '"' + item['text'] + '"'
                         })
                     }
-                    {if (item.hasOwnProperty('text')) {
-                        analtext +=' текст '+'"' + item['text'] + ' "'
-                    }}
+                    // {if (item.hasOwnProperty('text')) {
+                    //     analtext +=' текст '+'"' + ptext.text + '"'
+                    // }}
+                    {if (/[\s\d-.?!)(,:]/gi.test(item['text'])) {
+                        analtext += ' текст ' + '"' + item['text'] + '"'
+                    }
+                    }
 
                 })
                 // console.log(ptext)
@@ -80,17 +89,21 @@
                 let title = this.title;
                 let wordlist = this.wordlist
                 // let tags2 = this.tags2
-                let tags = JSON.stringify([this.tags])
+                // let tags = JSON.stringify([this.tags])
                 let watext=wordlist.replace(/Форма слова/gi,'"lex" :')
-                let wbtext=watext.replace(/Разбор:/gi, '{"Analysis" : {')
+                let wbtext=watext.replace(/Разбор:/gi, '{"analysis" : {')
                 let wctext=wbtext.replace(/грамматика/gi, ',"gr" :')
-                let wdtext=wctext.replace(/текст/gi, ', "text" :')
+                let wdtext=wctext.replace(/слово/gi, ' "text" :')
                 let wetext=wdtext.replace(/прочие обозначения/gi, '"qual" :')
                 let wftext=wetext.replace(/" {/gi, '" } , { ')
-                let wgtext=wftext.replace(/  /gi, ' }')
-                let words3 ='[' + wgtext + '}]'
+                let wgtext=wftext.replace(/  /gi, ' },')
+                let whtext=wgtext.replace(/текст/, '}, {"text" :')
+
+                let words3 ='[' + whtext + '}]'
+                console.log(words3)
+                alert(words3)
                 let words = JSON.parse(words3)
-                console.log(tags)
+                console.log(words)
                 // let words = [ {"Analysis" : { "lex" : "стол" ,"gr" : "S,m,inan=nom,sg" }, "text" : "стол "}]
                 // console.log(words)
                 // let words = [
@@ -103,8 +116,8 @@
                 //         "text": "string"
                 //     }
                 // ]
-
-                this.$store.dispatch('saveAnalyse', {title , tags, words})
+                // this.$store.dispatch('saveAnalyse', {title , tags, words})
+                this.$store.dispatch('saveAnalyse', {title, words})
             }
         },
 

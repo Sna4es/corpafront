@@ -35,15 +35,23 @@
             <hr/>
             ID корпуса: {{ idcor }}
             <hr/>
-            Название корпуса: <input readonly type="text" v-model="idtitle">
+<!--            Название корпуса: <input readonly type="text" v-model="idtitle">-->
+            Название корпуса: {{ idtitle }}
             <hr/>
             Автор корпуса: {{ idauthor }}
             <hr/>
-            Тэги: {{ idtags }}
-            <hr/>
-            <h2>CORPUS</h2>
-            <hr/>
+<!--            Тэги: {{ idtags }}-->
+<!--            <hr/>-->
+<!--            <h2>CORPUS</h2>-->
+<!--            <hr/>-->
             <textarea v-model="idtext" placeholder="Корпус" ></textarea>
+        </form>
+        <hr/>
+        <form @submit.prevent="Delidcorp" class="anayse">
+            <h2>Введите ID корпуса, который хотите удалить</h2>
+            <input type="text" placeholder="id" v-model="id">
+            <hr/>
+            <button class="button" type="submit">Удалить</button>
         </form>
     </div>
 </template>
@@ -170,77 +178,78 @@
                 let idauthor
                 let idtitle
                 let idresult = ''
-                let corid = {
-                    "title":"тестовый тайтле",
-                    "authorID":"5eebaee1a9c6d0237712b93c",
-                    "creationDate":{
-                        "year":2020,
-                        "dayOfMonth":21,
-                        "dayOfWeek":7,
-                        "dayOfYear":173,
-                        "era":1,
-                        "yearOfEra":2020,
-                        "yearOfCentury":20,
-                        "monthOfYear":6,
-                        "centuryOfEra":20,
-                        "weekOfWeekyear":25,
-                        "weekyear":2020,
-                        "minuteOfHour":25,
-                        "hourOfDay":21,
-                        "millisOfSecond":555,
-                        "secondOfMinute":19,
-                        "secondOfDay":77119,
-                        "millisOfDay":77119555,
-                        "minuteOfDay":1285,
-                        "chronology":{
-                            "zone":{
-                                "fixed":false,
-                                "uncachedZone":{
-                                    "fixed":false,
-                                    "cachable":true,
-                                    "id":"Europe/Astrakhan"
-                                },
-                                "id":"Europe/Astrakhan"
-                            }
-                        },
-                        "zone":{
-                            "fixed":false,
-                            "uncachedZone":{
-                                "fixed":false,
-                                "cachable":true,
-                                "id":"Europe/Astrakhan"
-                            },
-                            "id":"Europe/Astrakhan"
-                        },
-                        "millis":1592760319555,
-                        "afterNow":false,
-                        "beforeNow":true,
-                        "equalNow":false
-                    },
-                    "words":[
-                        {
-                            "analysis":{
-                                "lex":"йод",
-                                "gr":"ы",
-                                "qual":"bastard"
-                            },
-                            "text":"йода"
-                        },
-                        {
-                            "analysis":{
-                                "lex":"стоять",
-                                "gr":"V,ipf,intr=praet,sg,indic,m",
-                                "qual":"abort"
-                            },
-                            "text":"стоял"
-                        }
-                        ],
-                    "tags":[
-                        "тестовый тэг"
-                    ],
-                    "authorUsername":"Alex2",
-                    "_id":"owhrlishfgoiawhefwahto3"
-                }
+                let corid = JSON.parse(localStorage.getItem('corp'))
+                // let corid = {
+                //     "title":"тестовый тайтле",
+                //     "authorID":"5eebaee1a9c6d0237712b93c",
+                //     "creationDate":{
+                //         "year":2020,
+                //         "dayOfMonth":21,
+                //         "dayOfWeek":7,
+                //         "dayOfYear":173,
+                //         "era":1,
+                //         "yearOfEra":2020,
+                //         "yearOfCentury":20,
+                //         "monthOfYear":6,
+                //         "centuryOfEra":20,
+                //         "weekOfWeekyear":25,
+                //         "weekyear":2020,
+                //         "minuteOfHour":25,
+                //         "hourOfDay":21,
+                //         "millisOfSecond":555,
+                //         "secondOfMinute":19,
+                //         "secondOfDay":77119,
+                //         "millisOfDay":77119555,
+                //         "minuteOfDay":1285,
+                //         "chronology":{
+                //             "zone":{
+                //                 "fixed":false,
+                //                 "uncachedZone":{
+                //                     "fixed":false,
+                //                     "cachable":true,
+                //                     "id":"Europe/Astrakhan"
+                //                 },
+                //                 "id":"Europe/Astrakhan"
+                //             }
+                //         },
+                //         "zone":{
+                //             "fixed":false,
+                //             "uncachedZone":{
+                //                 "fixed":false,
+                //                 "cachable":true,
+                //                 "id":"Europe/Astrakhan"
+                //             },
+                //             "id":"Europe/Astrakhan"
+                //         },
+                //         "millis":1592760319555,
+                //         "afterNow":false,
+                //         "beforeNow":true,
+                //         "equalNow":false
+                //     },
+                //     "words":[
+                //         {
+                //             "analysis":{
+                //                 "lex":"йод",
+                //                 "gr":"ы",
+                //                 "qual":"bastard"
+                //             },
+                //             "text":"йода"
+                //         },
+                //         {
+                //             "analysis":{
+                //                 "lex":"стоять",
+                //                 "gr":"V,ipf,intr=praet,sg,indic,m",
+                //                 "qual":"abort"
+                //             },
+                //             "text":"стоял"
+                //         }
+                //         ],
+                //     "tags":[
+                //         "тестовый тэг"
+                //     ],
+                //     "authorUsername":"Alex2",
+                //     "_id":"owhrlishfgoiawhefwahto3"
+                // }
 
                 this.idtitle = corid.title
                 this.idauthor = corid.authorUsername
@@ -261,6 +270,10 @@
                 this.idtext = idresult
                 console.log(idtitle+' '+idauthor)
                 alert(idresult)
+            },
+            Delidcorp: function () {
+                let id = this.id
+                this.$store.dispatch('deleteCorpus', id)
             }
 
         }

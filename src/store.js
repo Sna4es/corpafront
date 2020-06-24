@@ -162,7 +162,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit('logout')
                 localStorage.removeItem('token')
-                // localStorage.clear()
+                // localStorage.clear()      // ПОЛНАЯ ОЧИСТКА ХРАНИЛИЩА
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })
@@ -193,6 +193,7 @@ export default new Vuex.Store({
                         // console.log(response.data.id+'cl1')
                         console.log(sessionStorage.up + '  store')
                         console.log(response)
+                        alert('Информация получена, нажмите кнопку "Просмотреть информацию о профиле"')
                         // console.log(" 2 ", username," 3 ", email," 4 ", roles)
                         // commit('auth_work', token)
                         // commit('auth_success',   username)
@@ -276,6 +277,7 @@ export default new Vuex.Store({
                             const parsed = JSON.stringify(repl)
                             sessionStorage.setItem('repla', parsed)
                             console.log(parsed)
+                            alert('Информация получена, нажмите кнопку "Посмотреть список замен символов"')
                             // this.$storage.set('replacez',{parsed},{ttl:10*1000})
                             // console.log(response.data)
                         })
@@ -365,7 +367,7 @@ export default new Vuex.Store({
                         headers: { Authorization: 'Bearer ' + localStorage.token }
                     })
                         .then(response => {
-                            alert('Смена пароля прошла успешно')
+                            alert('Смена пароля прошла успешно. Не забудьте записать его.')
                             resolve(response)
                             console.log(response)
                             console.log(user)
@@ -559,13 +561,16 @@ export default new Vuex.Store({
                     params: { page: localStorage.page }
                 })
                     .then(response => {
-                        const sear = response.data
-                        const parsed = JSON.stringify(sear)
-                        localStorage.setItem('searres', parsed)
-                        console.log(user)
-                        console.log(response)
-                        alert('Для просмотра результатов поиска нажмите кнопку "Просмотреть"')
-
+                        if (response.data.length === 0) {
+                            alert('По вашему запросу ничего не найдено')
+                        } else {
+                            const sear = response.data
+                            const parsed = JSON.stringify(sear)
+                            localStorage.setItem('searres', parsed)
+                            console.log(user)
+                            console.log(response)
+                            alert('Для просмотра результатов поиска нажмите кнопку "Просмотреть"')
+                        }
                     })
                     .catch(error => {
                         if (!error.response) {
@@ -611,6 +616,24 @@ export default new Vuex.Store({
                         console.log(user)
                     })
                     .catch(error => {
+                        if (!error.response) {
+                            console.log('сервер лежит')
+                            alert('Сервер не отвечает')
+                            console.log(user)
+                            // router.push('/errorserver')
+                        }
+                        if (error.response.status === 400) {
+                            console.log('error 400')
+                            alert('Неизвестная ошибка. Обратитесь к разработчику. Код ошибки: 400')
+                            console.log(user)
+                            // router.push('/error400')
+                        }
+                        if (error.response.status === 404) {
+                            console.log('error 404')
+                            alert('По указанным параметром не удалось ничего найти')
+                            console.log(user)
+                            // router.push('/error400')
+                        }
                         console.log(error)
                         reject(error)
                     })
@@ -631,6 +654,7 @@ export default new Vuex.Store({
                         console.log(user)
                     })
                     .catch(error => {
+
                         console.log(error)
                         reject(error)
                     })
@@ -648,10 +672,17 @@ export default new Vuex.Store({
         deleteCorpus ({commit}, user) {
             return new Promise( (resolve, reject) => {
                 axios({
-                    url:'http://127.0.0.1:8080/api/v1/document/'+id,
-                    method: 'DELETEт',
+                    url:'http://127.0.0.1:8080/api/v1/document/'+user,
+                    method: 'DELETE',
                     headers: { Authorization: 'Bearer ' + localStorage.token }
                 })
+                    .then(response => {
+                        console.log(response)
+                        alert('Указанный корпус удалён')
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             })
         },
     },

@@ -1,28 +1,43 @@
 <template>
     <div>
         <form @submit.prevent="checkProfile" class="checkP">
-            <button class="button" type="submit">Проверить свой профиль</button>
+            <h2>Личный кабинет пользователя</h2>
+            <button class="button" type="submit">Запросить информацию о своём профиле</button>
+<!--            <hr/>-->
+<!--&lt;!&ndash;            <textarea class="textarea1" v-model="userinf"></textarea>&ndash;&gt;-->
+<!--             {{ idp }}-->
+<!--            <hr/>-->
+<!--             {{ loginu }}-->
+<!--            <hr/>-->
+<!--            {{ emailu }}-->
+        </form>
+        <hr/>
+        <form @submit.prevent="seeProfile" class="seeP">
+            <button @submit.prevent="seeProfile" class="button" type="submit">Посмотреть информацию о профиле</button>
             <hr/>
-<!--            <textarea class="textarea1" v-model="userinf"></textarea>-->
-             {{ idp }}
+            {{ idp }}
             <hr/>
-             {{ loginu }}
+            {{ loginu }}
             <hr/>
             {{ emailu }}
+            <hr/>
         </form>
-        <hr/>
-        <form @submit.prevent="checkSettings" class="checkS">
-            <button class="button" type="submit">Проверить </button>
-<!--            <input type="text" v-model="setti">  настройки профиля -->
-            <hr/> {{ setti }}
-        </form>
+<!--        <form @submit.prevent="checkSettings" class="checkS">-->
+<!--            <button class="button" type="submit">Проверить </button>-->
+<!--&lt;!&ndash;            <input type="text" v-model="setti">  настройки профиля &ndash;&gt;-->
+<!--            <hr/> {{ setti }}-->
+<!--        </form>-->
+<!--        <hr/>-->
         <hr/>
         <form @submit.prevent="checkReplaces" class="checkR">
-            <button class="button" type="submit">Проверить </button>
-<!--            <input type="text" v-model="reppl">-->
+            <button class="button" type="submit">Запросить список замен символов </button>
+            <!--            <input type="text" v-model="reppl">-->
             <hr/>
-              {{ reppl }}
-            <hr/> {{ setti }}
+        </form>
+        <form @submit.prevent="seeReplaces" class="seeR">
+        <button @submit.prevent="seeReplaces" type="submit" class="button">Посмотреть список замен символов</button>
+            <hr/>
+            {{ reppl }}
         </form>
 <!--        <hr/>-->
         <h2>Смена имени пользователя</h2>
@@ -93,10 +108,10 @@
                 .then(() =>
                 console.log(this.getters.isLoggedIn, 'afsf'),
                     // console.log(localStorage.getItem('up')+' profilevue'),
-                    this.userinf = sessionStorage.getItem('up'),
-                    this.idp ='ID пользователя:' + sessionStorage.getItem('idp'),
-                    this.loginu ='Имя пользователя:' + sessionStorage.getItem('loginu'),
-                    this.emailu ='Электронная почта:' + sessionStorage.getItem('emailu'),
+                    // this.userinf = sessionStorage.getItem('up'),
+                    // this.idp ='ID пользователя:' + sessionStorage.getItem('idp'),
+                    // this.loginu ='Имя пользователя:' + sessionStorage.getItem('loginu'),
+                    // this.emailu ='Электронная почта:' + sessionStorage.getItem('emailu'),
                     console.log(userinf)
                     )
                 .catch(error => {
@@ -106,6 +121,12 @@
                     console.log(error)
                 })
 
+            },
+            seeProfile: function () {
+                this.userinf = sessionStorage.getItem('up'),
+                    this.idp ='ID пользователя:' + sessionStorage.getItem('idp'),
+                    this.loginu ='Имя пользователя:' + sessionStorage.getItem('loginu'),
+                    this.emailu ='Электронная почта:' + sessionStorage.getItem('emailu')
             },
             checkSettings: function () {
                 var setti
@@ -129,7 +150,6 @@
                 let reppl = ''
                 this.$store.dispatch('myReplaces')
                 .then(() => console.log(this.$store.getters.isLoggedIn),
-
                     console.log(reppl+'reppl ssss')
                 )
                 .catch(error => {
@@ -138,6 +158,9 @@
                     // }
                     console.log(error)
                 })
+                // this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla'))
+            },
+            seeReplaces: function () {
                 this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla'))
             },
             // checkReplaces: function () {
