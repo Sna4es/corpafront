@@ -55,14 +55,18 @@
             <hr/>
             <button class="button" type="submit">Сменить пароль</button>
             <h2>Добавление символов для замены</h2>
-            <form @submit.prevent="addReplace" class="addReplace">
+            <form @submit.prevent="setReplace" class="addReplace">
                 <input type="text" v-model="newReplace" placeholder='символ : символ '>
                 <hr/>
 <!--                <input type="origsym" v-model="origsym" placeholder='заменяемый символ'>-->
 <!--                <hr/>-->
 <!--                <input type="repsym" v-model="repsym" placeholder='заменяющий символ'>-->
 <!--                <hr/>-->
-                <button class="button" type="submit">Добавить замену</button>
+                <button class="button" type="submit">Задать замены</button>
+            </form>
+            <form @submit.prevent="setReplace" class="addReplace">
+                <hr/>
+                <button class="button" type="submit">Добавить замены</button>
             </form>
         </form>
     </div>
@@ -194,28 +198,36 @@
                         this.$store.dispatch('logout')
                     })
             },
-            addReplace: function () {
-                let lev = '"{'
-                let sr = ':'
-                let prav = '}"'
-                let origsym = this.origsym
-                let repsym = this.repsym
-                // let replaces = lev+origsym+sr+repsym+prav
-                // let replaces = this.replaces
-                // let replaces = 'additionalProp1" : "string'
-                let replaces = this.newReplace
+            setReplace: function () {
+                let newReplace = this.newReplace
+                let str1 = newReplace.replace(/:/gi, '":"')
+                let str2 = str1.replace(/,/gi,'","')
+                let str3 = str2.replace(/ /gi, '')
+                let replaces = '{"' + str3 + '"}'
+                // alert(replaces)
                 this.$store.dispatch('myReplacesSet', {replaces})
+
                 .catch(error => {
-                    this.$router.push('/error')
+                    // this.$router.push('/error')
                     console.log(error)
-                    console.log(replaces)
+                    console.log(replaces + 'profile')
                 })
             },
-            // userInfo: function () {
-            //     this.$store.state.
-            //
-            //
-            // }
+            addReplace: function () {
+                let newReplace = this.newReplace
+                let str1 = newReplace.replace(/:/gi, '":"')
+                let str2 = str1.replace(/,/gi,'","')
+                let str3 = str2.replace(/ /gi, '')
+                let replaces = '{"' + str3 + '"}'
+                // alert(replaces)
+                this.$store.dispatch('myReplacesAdd', {replaces})
+
+                    .catch(error => {
+                        // this.$router.push('/error')
+                        console.log(error)
+                        console.log(replaces + 'profile')
+                    })
+            }
         },
 
     }

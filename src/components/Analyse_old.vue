@@ -66,7 +66,7 @@
                         // console.log(anat+'test')
                     )
                     .catch(error => {
-                        this.$router.push('/error')
+                        // this.$router.push('/error')
                         console.log(error, 'anerror')
                     })
             },

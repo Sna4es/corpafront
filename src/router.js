@@ -16,7 +16,7 @@ import Redactor from "./components/Redactor";
 Vue.use(Router)
 
 let router = new Router({
-  mode: 'history',
+  // mode: 'history',
   // base: '/sibtiger-study/',
   routes: [
     {
@@ -63,7 +63,7 @@ let router = new Router({
       name: 'analyse',
       component: Analyse,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -71,7 +71,7 @@ let router = new Router({
       name: 'redactor',
       component: Redactor,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {

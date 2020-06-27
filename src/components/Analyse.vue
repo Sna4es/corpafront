@@ -69,10 +69,11 @@
         methods: {
             Analyse: function () {
                 if (text != "") {
-                    var text = ''
+                    let text = ''
                 }
                 let analtext = ''
-                var text = this.text;
+                let text2 = this.text.replace(/\n/gi,' ');
+                let text = text2
                 let doReplaces = this.doReplaces
                 let params = doReplaces
                 console.log(doReplaces)
@@ -87,7 +88,7 @@
                         // console.log(anat+'test')
                     )
                     .catch(error => {
-                        this.$router.push('/error')
+                        // this.$router.push('/error')
                         console.log(error, 'anerror')
                     })
             },
@@ -99,7 +100,7 @@
                 // console.log(atax+'errar')
                 // console.log(atext+'atext')
                 let jtext = localStorage.getItem('analtext')
-                alert(jtext)
+                // alert(jtext)
             },
             Replace: function () {
                 let qqtext = localStorage.getItem('antext')
@@ -133,7 +134,7 @@
                 console.log(analtext)
                 localStorage.setItem('razbor', analtext)
                 this.text = analtext
-                alert(analtext)
+                // alert(analtext)
             },
 
         }

@@ -151,7 +151,7 @@
                     }
                 })
                 this.sertext = sresult
-                alert(sresult)
+                // alert(sresult)
                 // console.log(sresult)
                 console.log(sertext + 'sertext')
             },
@@ -269,7 +269,7 @@
                 })
                 this.idtext = idresult
                 console.log(idtitle+' '+idauthor)
-                alert(idresult)
+                // alert(idresult)
             },
             Delidcorp: function () {
                 let id = this.id
