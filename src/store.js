@@ -162,7 +162,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit('logout')
                 localStorage.removeItem('token')
-                // localStorage.clear()      // ПОЛНАЯ ОЧИСТКА ХРАНИЛИЩА
+                // localStorage.clear(); sessionStorage.clear()       // ПОЛНАЯ ОЧИСТКА ХРАНИЛИЩА
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })
@@ -495,7 +495,6 @@ export default new Vuex.Store({
                     })
             })
         },
-
         analyseText({commit}, user, username, token, originalText) {
             return new Promise((resolve, reject) => {
                 const rep = localStorage.getItem('dorep')  //НЕ УДАЛЯТЬ
@@ -543,7 +542,6 @@ export default new Vuex.Store({
                         })
             })
         },
-
         saveAnalyse({commit}, user ) {
             return new Promise((resolve, reject) => {
                 axios({

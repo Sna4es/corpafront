@@ -1,10 +1,26 @@
 <template>
-    <h4>error</h4>
+    <div>
+    <h4>Ошибка, нажмите кнопку "Назад"</h4>
+    <form @submit.prevent="Back" class="Analyse">
+        <button class="button" type="submit">Назад</button>
+        <hr/>
+    </form>
+        </div>
 </template>
 
 <script>
     export default {
-        name: "Error"
+        data () {
+            return {
+
+
+            }
+        },
+        methods: {
+            Back: function () {
+                this.$router.back()
+            }
+        }
     }
 </script>
 

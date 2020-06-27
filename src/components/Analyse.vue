@@ -93,14 +93,8 @@
                     })
             },
             Receive: function () {
-                // var jtext = ''
-                // this.jtext = localStorage.getItem('antext')
-                // let atext = JSON.parse(jtext)
-                // let atax = JSON.parse(atext)
-                // console.log(atax+'errar')
-                // console.log(atext+'atext')
                 let jtext = localStorage.getItem('analtext')
-                // alert(jtext)
+
             },
             Replace: function () {
                 let qqtext = localStorage.getItem('antext')
@@ -116,20 +110,44 @@
             Parsing: function () {
                 let analtext = ''
                 let ptext = JSON.parse(localStorage.getItem('wlist'))
-                ptext.forEach(function (item, i, arr) {
-                    if (item.hasOwnProperty('analysis')) {
-                        item['analysis'].forEach(function (etem,j,arrr) {
-                        analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
-                        analtext +='  грамматика  '+'"' + etem['gr']+'" '
-                        if (etem.hasOwnProperty('qual')) {
-                        analtext +=' прочие обозначения '+ '"' + etem['qual']+'"'}
-                        })
-                    }
-                    {if (item.hasOwnProperty('text')) {
-                        analtext +=' текст '+'"' + item['text'] + '"'
-                    }}
+                if (ptext != null) {
+                    ptext.forEach(function (item, i, arr) {
+                        if (item.hasOwnProperty('analysis')) {
+                            item['analysis'].forEach(function (etem,j,arrr) {
+                                analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
+                                analtext +=' грамматика '+'"' + etem['gr']+'" '
+                                if (etem.hasOwnProperty('qual')) {
+                                    analtext +='прочие обозначения '+ '"' + etem['qual']+'"'}
+                                analtext += ' слово ' + '"' + item['text'] + '"'
+                            })
+                        }
+                        // {if (item.hasOwnProperty('text')) {
+                        //     analtext +=' текст '+'"' + ptext.text + '"'
+                        // }}
+                        {if (/\n/gi.test(item['text'])) {
+                            analtext += ' sym ' + '" "'
+                        }
+                        }
+                        {if (/[\d\t\v\f\r-.?!)(,:]/gi.test(item['text'])) {
+                            analtext += ' sym ' + '"' + item['text'] + '"'
+                        }
+                        }
 
-                })
+                    })} else {alert('Сначала проведите анализ')}
+                // ptext.forEach(function (item, i, arr) {
+                //     if (item.hasOwnProperty('analysis')) {
+                //         item['analysis'].forEach(function (etem,j,arrr) {
+                //         analtext +=' Разбор: форма слова '+ '"'+ etem['lex']+'"'
+                //         analtext +='  грамматика  '+'"' + etem['gr']+'" '
+                //         if (etem.hasOwnProperty('qual')) {
+                //         analtext +=' прочие обозначения '+ '"' + etem['qual']+'"'}
+                //         })
+                //     }
+                //     {if (item.hasOwnProperty('text')) {
+                //         analtext +=' текст '+'"' + item['text'] + '"'
+                //     }}
+                //
+                // })
                 // console.log(ptext)
                 console.log(analtext)
                 localStorage.setItem('razbor', analtext)

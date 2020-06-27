@@ -102,7 +102,7 @@
                     let wdtext = wctext.replace(/слово/gi, ' "text" :')
                     let wetext = wdtext.replace(/прочие обозначения/gi, ',"qual" :')
                     let wftext = wetext.replace(/" {/gi, '" } , { ')
-                    let wgtext = wftext.replace(/  /gi, ' },')
+                    let wgtext = wftext.replace(/"  /gi, '" },')
                     let whtext = wgtext.replace(/sym/gi, '}, {"text" :')
                     let witext = whtext.replace(/\n/gi,'')
                     let words3 = '[' + witext + '}]'

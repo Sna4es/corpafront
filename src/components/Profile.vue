@@ -116,7 +116,7 @@
                     // this.idp ='ID пользователя:' + sessionStorage.getItem('idp'),
                     // this.loginu ='Имя пользователя:' + sessionStorage.getItem('loginu'),
                     // this.emailu ='Электронная почта:' + sessionStorage.getItem('emailu'),
-                    console.log(userinf)
+                    // console.log(userinf)
                     )
                 .catch(error => {
                     // if (error.response.status === 401){
