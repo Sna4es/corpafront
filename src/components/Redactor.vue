@@ -89,7 +89,7 @@
                 this.wordlist = analtext
                 // alert(analtext)
                 console.log(ptext)
-            },
+            }, // получение результата анализа из хранилища
             Send: function () {
                 let title = this.title;
                 let wordlist = this.wordlist
@@ -127,7 +127,7 @@
                     this.$store.dispatch('saveAnalyse', {title, words})
                 } else {alert('Введите название текста')}
 
-            }
+            } // перевод в JSON формат и отрпавка на сервер
         },
 
 

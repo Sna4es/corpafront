@@ -103,7 +103,7 @@
                         console.log(error)
                         alert(error)
                     })
-            },
+            }, // поиск по паарметрам
             Seecorp: function () {     // /document/search поиск по id, lex, gr...
                 let resp
                 // let rezultat = ''
@@ -139,7 +139,7 @@
                 // alert(sresult)
                 // console.log(sresult)
                 console.log(sertext + 'sertext')
-            },
+            },  // показывает рез-тат поиска по параметрам
             Getcorp: function () {
                 let id = this.id
                 if (id === ' ' || id.length === null || id === "" || id === /[-.?!)(,:]/ || id === '  ' || id ===
@@ -147,7 +147,7 @@
                 {alert('Введите id корпуса для поиска')
                 } else
                     {this.$store.dispatch('getCoprus', id)  }
-            },
+            }, // получает корпус по id
             Seeidcorp: function () {
                 let idauthor
                 let idtitle
@@ -245,7 +245,7 @@
                 this.idtext = idresult
                 console.log(idtitle+' '+idauthor)
                 // alert(idresult)
-            },
+            }, // показывает весь корпус при поиске по id
             Seeorigtext: function () {
                 let idauthor
                 let idtitle
@@ -337,11 +337,11 @@
                 this.idtext = idresult
                 console.log(idtitle+' '+idauthor)
                 // alert(idresult)
-            },
+            }, // показывает только оригинальный текст при поиске по id
             Delidcorp: function () {
                 let id = this.id
                 this.$store.dispatch('deleteCorpus', id)
-            }
+            }  // удаление корпуса по id
 
         }
     }

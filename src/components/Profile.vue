@@ -125,13 +125,13 @@
                     console.log(error)
                 })
 
-            },
+            }, // проверка инфы о профиле
             seeProfile: function () {
                 this.userinf = sessionStorage.getItem('up'),
                     this.idp ='ID пользователя:' + sessionStorage.getItem('idp'),
                     this.loginu ='Имя пользователя:' + sessionStorage.getItem('loginu'),
                     this.emailu ='Электронная почта:' + sessionStorage.getItem('emailu')
-            },
+            }, // показ инфы о профиле
             checkSettings: function () {
                 var setti
                 this.$store.dispatch('mySettings')
@@ -149,7 +149,7 @@
                     // }
                     console.log(error)
                 })
-            },
+            }, // проверка настроек. почти работала, но смысла не имела
             checkReplaces: function () {
                 let reppl = ''
                 this.$store.dispatch('myReplaces')
@@ -163,10 +163,10 @@
                     console.log(error)
                 })
                 // this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla'))
-            },
+            }, // проверка инфы о заменах
             seeReplaces: function () {
                 this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla'))
-            },
+            }, // показ инфы о заменах
             userRename: function () {
                 let username = this.username
                 if (username != "") {
@@ -177,7 +177,7 @@
                             console.log(error)
                         })
                 } else { alert('Введите желаемое имя пользователя')}
-            },
+            }, // сменить имя пользователя
             updatePassword: function () {
                 let currentPassword = this.currentPassword
                 let newPassword = this.newPassword
@@ -193,7 +193,7 @@
                 } else  {
                     alert('Вы не ввели новый пароль или его подтверждение')
                 }
-            },
+            }, // сменить пароль
             setReplace: function () {
                 let newReplace = this.newReplace
                 let str1 = newReplace.replace(/:/gi, '":"')
@@ -208,7 +208,7 @@
                     console.log(error)
                     console.log(replaces + 'profile')
                 })
-            },
+            },  // задать замены POST ЗАПРОСОМ (заменит существующие)
             addReplace: function () {
                 let newReplace = this.newReplace
                 let str1 = newReplace.replace(/:/gi, '":"')
@@ -223,7 +223,7 @@
                         console.log(error)
                         console.log(replaces + 'profile')
                     })
-            }
+            }  // добавить замены к существующим
         },
 
     }

@@ -73,6 +73,7 @@
                 }
                 let analtext = ''
                 let text2 = this.text.replace(/\n/gi,' ');
+                // ВНИМАНИЕ!! У БЭКА ЕСТЬ КОСЯК - ТЕКСТ, В КОТОРОМ ЕСТЬ \n НЕ АНАЛИЗИРУЕТСЯ, ПОЭТОМУ ИСПОЛЬЗУЕТСЯ ТАКАЯ ЗАМЕНА. Светлов в курсе.
                 let text = text2
                 let doReplaces = this.doReplaces
                 let params = doReplaces
@@ -91,11 +92,11 @@
                         // this.$router.push('/error')
                         console.log(error, 'anerror')
                     })
-            },
+            }, // отправляет текст на анализ
             Receive: function () {
                 let jtext = localStorage.getItem('analtext')
 
-            },
+            }, // парсит результат анализа в человеческий вид и выводит на экран. не используется
             Replace: function () {
                 let qqtext = localStorage.getItem('antext')
                 let qqext = qqtext.replace(/Форма слова/gi,',"lex" :')
@@ -106,7 +107,7 @@
                 // let qdtext = qctext.replace(//)
                 alert(qctext)
                 this.text = qctext
-            },
+            },  // тестовый метод, можно удалить
             Parsing: function () {
                 let analtext = ''
                 let ptext = JSON.parse(localStorage.getItem('wlist'))
@@ -153,7 +154,7 @@
                 localStorage.setItem('razbor', analtext)
                 this.text = analtext
                 // alert(analtext)
-            },
+            }, // парсит результат анализа в человеческий вид и выводит на экран
 
         }
     }
