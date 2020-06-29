@@ -4,7 +4,7 @@
         <form @submit.prevent="Receive" class="analyse">
             <button class="button" type="submit">Запросить</button>
             <hr/>
-            <textarea v-model="wordlist" placeholder="Нажмите кнопку Запросить"></textarea>
+            <textarea v-model="wordlist" spellcheck="false" placeholder="Нажмите кнопку Запросить"></textarea>
         </form>
         <hr/>
         <form @submit.prevent="Send" class="analyse">

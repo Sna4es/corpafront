@@ -1,7 +1,20 @@
 <template>
-  <div class="home">
+  <div class="home2">
     <textarea class="home">Работа направлена на создание лингвистического корпуса деловых документов XVIII – XIX вв.,
       созданных в канцеляриях Войска Донского и хранящихся в фонде «Михайловский станичный атаман» Государственного архива Волгоградской области. </textarea>
+    <hr/>
+    <form @submit="goAnalyse" class="Analyse">
+      <button type="submit" class="button" name="knopka">Перейти к анализу</button>
+      <router-link v-if="isLoggedIn" to="/redactor">Редактор | </router-link>
+      <router-link
+              to="/analyse"
+              v-slot="{ href, route, navigate, isActive, isExactActive }"
+      >
+        <NavLink :active="isActive" :href="href" @click="navigate">
+          <u>Перейти к аназизу</u>
+        </NavLink>
+      </router-link>
+    </form>
   </div>
 </template>
 
@@ -13,6 +26,11 @@ export default {
   name: 'home',
   components: {
     HelloWorld
+  },
+  methods: {
+    goAnalyse: function () {
+      this.$router.push('/analyse')
+    }
   }
 }
 </script>
@@ -25,7 +43,7 @@ export default {
     resize: both;
     overflow: auto;
     width: 75%;
-    height: 200px;
+    height: 100px;
     padding: 12px 20px;
     box-sizing: border-box;
     margin-left: auto;

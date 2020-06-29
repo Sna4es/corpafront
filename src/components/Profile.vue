@@ -64,7 +64,7 @@
 <!--                <hr/>-->
                 <button class="button" type="submit">Задать замены</button>
             </form>
-            <form @submit.prevent="setReplace" class="addReplace">
+            <form @submit.prevent="addReplace" class="addReplace">
                 <hr/>
                 <button class="button" type="submit">Добавить замены</button>
             </form>
@@ -167,16 +167,6 @@
             seeReplaces: function () {
                 this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla'))
             },
-            // checkReplaces: function () {
-            //     this.$store.dispatch('myReplaces')
-            //         .then(() =>
-            //             console.log(localStorage.getItem('repla')+'repla')
-            //         )
-            //     .catch(error => {
-            //         this.$router.push('/login')
-            //         console.log(error)
-            //     })
-            // },
             userRename: function () {
                 let username = this.username;
                 this.$store.dispatch('myNewUsername', {username})

@@ -2,7 +2,7 @@
     <div>
         <h2>Страница анализа текста</h2>
         <form @submit.prevent="Analyse" class="analyse">
-            <textarea v-model="text" placeholder="Введите текст для анализа"></textarea>
+            <textarea v-model="text" spellcheck="false" placeholder="Введите текст для анализа"></textarea>
             <hr/>
             Замена символов <select v-model="doReplaces">
             <hr/>
