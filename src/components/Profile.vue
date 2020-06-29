@@ -168,25 +168,31 @@
                 this.reppl='Список заменяемых символов:' + (sessionStorage.getItem('repla'))
             },
             userRename: function () {
-                let username = this.username;
-                this.$store.dispatch('myNewUsername', {username})
-                    .then(() => console.log('rename succes'))
-                .catch(error => {
-                    // this.$router.push('/login')
-                    console.log(error)
-                })
+                let username = this.username
+                if (username != "") {
+                    this.$store.dispatch('myNewUsername', {username})
+                        .then(() => console.log('rename succes'))
+                        .catch(error => {
+                            // this.$router.push('/login')
+                            console.log(error)
+                        })
+                } else { alert('Введите желаемое имя пользователя')}
             },
             updatePassword: function () {
                 let currentPassword = this.currentPassword
                 let newPassword = this.newPassword
                 let newPasswordConfirm = this.newPasswordConfirm
-                this.$store.dispatch('myNewPassword', {currentPassword, newPassword, newPasswordConfirm})
-                    .then( console.log('pass update'))
-                    .catch(error => {
-                        this.$router.push('/home')
-                        console.log(error)
-                        this.$store.dispatch('logout')
-                    })
+                if (newPassword != "" || newPasswordConfirm !="" || newPassword.length <=8) {
+                    this.$store.dispatch('myNewPassword', {currentPassword, newPassword, newPasswordConfirm})
+                        .then(console.log('pass update'))
+                        .catch(error => {
+                            this.$router.push('/home')
+                            console.log(error)
+                            this.$store.dispatch('logout')
+                        })
+                } else  {
+                    alert('Вы не ввели новый пароль или его подтверждение')
+                }
             },
             setReplace: function () {
                 let newReplace = this.newReplace

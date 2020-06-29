@@ -142,7 +142,8 @@
             },
             Getcorp: function () {
                 let id = this.id
-                if (id === ' ' || id.length === null || id === '' || id === /[-.?!)(,:]/)
+                if (id === ' ' || id.length === null || id === "" || id === /[-.?!)(,:]/ || id === '  ' || id ===
+                    '   ' || id === '    ' )
                 {alert('Введите id корпуса для поиска')
                 } else
                     {this.$store.dispatch('getCoprus', id)  }

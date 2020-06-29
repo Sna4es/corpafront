@@ -123,7 +123,10 @@
                 //     }
                 // ]
                 // this.$store.dispatch('saveAnalyse', {title , tags, words})
-                this.$store.dispatch('saveAnalyse', {title, words})
+                if (title != "") {
+                    this.$store.dispatch('saveAnalyse', {title, words})
+                } else {alert('Введите название текста')}
+
             }
         },
 
