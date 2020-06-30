@@ -14,7 +14,8 @@
           <u>Перейти к аназизу</u>
         </NavLink>
       </router-link>
-    </form>
+    </form> // попытка как то разнообразить главную, вообще сюда бы статистику какую-нить, но эт надо и бэк
+    доработать...
   </div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
   methods: {
     goAnalyse: function () {
       this.$router.push('/analyse')
-    }
+    } // перейти на страницу анализа
   }
 }
 </script>

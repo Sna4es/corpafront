@@ -37,14 +37,14 @@ let router = new Router({
       name: 'register',
       component: Register
     },
-    {
-      path: '/secure',
-      name: 'secure',
-      component: Secure,
-      meta: { 
-        requiresAuth: true
-      }
-    },
+    // {
+    //   path: '/secure',
+    //   name: 'secure',
+    //   component: Secure,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: '/about',
       name: 'about',
@@ -93,7 +93,7 @@ let router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { // выкинуть если не аутентифицирован
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next()

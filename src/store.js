@@ -14,7 +14,7 @@ Vue.use(Vue2Storage)
 export default new Vuex.Store({
     state2: {
         userId: '',
-    },
+    }, // можно удалить
     state: {
         status: '',
         token: localStorage.getItem('token') || '',
@@ -35,7 +35,7 @@ export default new Vuex.Store({
         mySettingsd: {},
         originalText: {},
 
-    },
+    }, // можно удалить всё, кроме токена
     mutations: {
 
         auth_request(state) {
@@ -106,7 +106,7 @@ export default new Vuex.Store({
 
                     })
             })
-        },
+        },  // войти
         register({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
@@ -157,7 +157,7 @@ export default new Vuex.Store({
                        console.log(error.response.data)
                     })
             })
-        },
+        },  // регистрация
         logout({commit}) {     //// ВЫХОД
             return new Promise((resolve, reject) => {
                 commit('logout')
@@ -166,7 +166,7 @@ export default new Vuex.Store({
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })
-        },
+        }, // выйти
         myProfile({commit} ) {   ///просмотр инфы о себе
             return new Promise((resolve, reject) => {
                 const token = localStorage.token
@@ -214,7 +214,7 @@ export default new Vuex.Store({
                     })
 
             })
-        },
+        },  // получить инфу о своей учётке
         profileUser({commit}, user) {   ///просмотр инфы о пользователе
             return new Promise((resolve, reject) => {
                 axios.get('http://45.90.35.103:8080/api/v1/users/{id}', {
@@ -234,7 +234,7 @@ export default new Vuex.Store({
                         }
                     })
             })
-        },
+        }, // получить инфу о другом пользователе // не используется
         mySettings({commit}, user, mySettingsd) {  // посмотреть свои настройки
             return new Promise((resolve, reject) => {
                 const token = localStorage.token
@@ -265,7 +265,7 @@ export default new Vuex.Store({
                         reject(error)
                     })
             })
-        },
+        }, // поисмотреть свои настройки // там только замены, поэтому пока не используется
         myReplaces({commit}, user) {    //посмотреть свои замены
             return new Promise((resolve, reject) => {
                 const token = localStorage.token
@@ -302,7 +302,7 @@ export default new Vuex.Store({
                             // }
                         })
             })
-        },
+        }, // посмотреть свои замены
         myNewUsername({commit}, user) {   // ПЕРЕИМЕНОВАТЬ ПОЛЬЗОВАТЕЛЯ
             return new Promise((resolve, reject) => {
                 const token = localStorage.token
@@ -349,7 +349,7 @@ export default new Vuex.Store({
                             // console.log(error.response.data)
                         })
             })
-        },
+        }, // изменить имя пользователя
         myNewPassword({commit}, user, token, NewPassword, origPassword, nPassword, nPasswordConfirm ) {  // СМЕНИТЬ ПАРОЛЬ
             return new Promise((resolve, reject) => {
                 const config = {
@@ -394,7 +394,7 @@ export default new Vuex.Store({
                             // commit('auth_success')
                         })
             })
-        },
+        }, // сменить пароль
         myReplacesSet({commit}, user, token, replaces) {  //задать свои замены
             return new Promise((resolve, reject) => {
                 // const config = {
@@ -444,7 +444,7 @@ export default new Vuex.Store({
                             console.log(localStorage.token)
                         })
             })
-        },
+        }, // задать замены PUT запросом = те затрёт старые
         myReplacesAdd({commit}, user, token, replaces) {  //задать свои замены
             return new Promise((resolve, reject) => {
                 // const config = {
@@ -494,7 +494,7 @@ export default new Vuex.Store({
                         console.log(localStorage.token)
                     })
             })
-        },
+        },// добавить замены к существующим POST запросом
         analyseText({commit}, user, username, token, originalText) {
             return new Promise((resolve, reject) => {
                 const rep = localStorage.getItem('dorep')  //НЕ УДАЛЯТЬ
@@ -541,7 +541,7 @@ export default new Vuex.Store({
                             console.log(error.response.data)
                         })
             })
-        },
+        },  // отправить текст на анализ
         saveAnalyse({commit}, user ) {
             return new Promise((resolve, reject) => {
                 axios({
@@ -584,7 +584,7 @@ export default new Vuex.Store({
                         console.log(error)
                     })
             })
-        },
+        },  // сохранить текст в корпус
         searchCorpus ({commit}, user) {
             return new Promise( (resolve, reject) =>{
                 axios ({
@@ -633,7 +633,7 @@ export default new Vuex.Store({
                         console.log(error.response.data)
                     })
             })
-        },
+        }, // поиск по известным параметрам
         getCoprus ({commit}, user ) {
             return new Promise( (resolve, reject) => {
                 axios({
@@ -677,7 +677,7 @@ export default new Vuex.Store({
                         reject(error)
                     })
             })
-        },
+        }, // получить по id
         getMyCorpus ({commit}, user ) {
             return new Promise( (resolve, reject) => {
                 axios({
@@ -698,7 +698,7 @@ export default new Vuex.Store({
                         reject(error)
                     })
             })
-        },
+        }, // получить свои корпуса // не используется
         editCorpus ({commit}, user) {
             return new Promise( (resolve, reject) => {
                 axios({
@@ -707,7 +707,7 @@ export default new Vuex.Store({
                     headers: { Authorization: 'Bearer ' + localStorage.token }
                 })
             })
-        },
+        }, // редактирование корпуса // не доделано
         deleteCorpus ({commit}, user) {
             return new Promise( (resolve, reject) => {
                 axios({
@@ -740,7 +740,7 @@ export default new Vuex.Store({
                         console.log(error)
                     })
             })
-        },
+        }, // удаление корпуса по id
     },
 
 
